@@ -5,21 +5,22 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useMatches,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 
+import 'react-notion-x/src/styles.css'
+import 'prismjs/themes/prism-tomorrow.css'
+import 'katex/dist/katex.min.css'
+
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
+  { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;800&display=swap",
   },
   { rel: "stylesheet", href: stylesheet },
 ];
@@ -34,6 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <Navbar />
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -44,6 +46,26 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />;
+}
+
+function Navbar() {
+  const ignoreNavRoutes = ["/blog", "/terms-of-service", "/open-source", "/brand-kit"];
+  const matches = useMatches();
+  
+  // Check if the current route starts with any of the ignoreNavRoutes
+  const ignoreNav = matches.some((match) => 
+    ignoreNavRoutes.some(route => match.pathname.startsWith(route))
+  );
+
+  return (ignoreNav ? null :
+    <nav className="p-4">
+      <ul className="flex space-x-4">
+        <li><a href="/" className="text-white">Home</a></li>
+        <li><a href="/about" className="text-white">About</a></li>
+        <li><a href="/contact" className="text-white">Contact</a></li>
+      </ul>
+    </nav>
+  )
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

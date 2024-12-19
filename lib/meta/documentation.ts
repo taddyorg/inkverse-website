@@ -1,7 +1,7 @@
 import { get } from "lodash-es";
 import { getMetaTags } from "@/lib/seo";
-import { additionalInfoForNotionId, BlogPost } from "@/public/notion";
-import { GetDocumentationQuery } from "@/shared/graphql/operations";
+import { additionalInfoForNotionId, type BlogPost } from "@/public/notion";
+import { type GetDocumentationQuery } from "@/shared/graphql/operations";
 
 export function getDocumentMeta(data: GetDocumentationQuery['getDocumentation']) {
   if (!data || !data.id || !data.text) { return []; }
