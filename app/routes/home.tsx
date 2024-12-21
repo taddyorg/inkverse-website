@@ -142,7 +142,7 @@ export default function Home() {
                   </div>
                   <div className="text-center">
                     <h2 className="text-2xl font-bold tracking-tight sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
-                      <Link to="/comics/fragmented-dreams" className="block text-white">
+                      <Link to="/comics/fragmented-dreams" prefetch="intent" className="block text-white">
                         Fragmented Dreams
                       </Link>
                     </h2>
@@ -162,7 +162,7 @@ export default function Home() {
                         {footerNavigation.company.map((item) => (
                           <li key={item.name} className={item.additionalStyling}>
                             {item.type === 'internal' 
-                              ? <Link to={item.href} className="text-base text-gray-400 hover:text-white">
+                              ? <Link to={item.href} prefetch="intent" className="text-base text-gray-400 hover:text-white">
                                   {item.name}
                                 </Link>
                               : <a href={item.href} target="_blank" className={item.buttonStyling || 'text-base text-gray-400 hover:text-white'}>

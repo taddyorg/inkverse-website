@@ -1,0 +1,19 @@
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import config from '@/config';
+import { typePolicies } from '@/public/apollo';
+
+let client: ApolloClient<any> | null = null;
+
+export function initClient(apolloState: any): ApolloClient<any> {
+  client = new ApolloClient({
+    cache: new InMemoryCache({ typePolicies  }).restore(apolloState),
+    link: createHttpLink({
+      uri: config.SERVER_URL,
+    }),
+  });
+  return client;
+}
+
+export function getClient() {
+  return client;
+}

@@ -10,17 +10,17 @@ export const loader = async ({ params, request, context }: LoaderFunctionArgs) =
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) { return []; }
-  else if (!data.id) { return []; }
-  return getDocumentMeta(data);
+  else if (!data.documentation) { return []; }
+  return getDocumentMeta(data.documentation);
 };
 
 export default function() {
   const data = useLoaderData<typeof loader>();
-  if (!data || !data.text) {
+  if (!data || !data.documentation || !data.documentation.text) {
     return <div>Could not find post</div>;
   }
 
   return (
-    <NotionWrapper blockText={data.text}/>
+    <NotionWrapper blockText={data.documentation.text}/>
   );
 }

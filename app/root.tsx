@@ -5,13 +5,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
   useMatches,
-  type LoaderFunctionArgs,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
+import { getClient } from "@/lib/apollo/client.client";
+import { useEffect } from 'react';
 
 import 'react-notion-x/src/styles.css'
 import 'prismjs/themes/prism-tomorrow.css'
@@ -28,6 +28,18 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const matches = useMatches();
+  const currentRouteData = matches[matches.length - 1]?.data;
+  
+  useEffect(() => {
+    if ((currentRouteData as any)?.apolloState) {
+      const client = getClient();
+      if (client) {
+        client.restore((currentRouteData as any).apolloState);
+      }
+    }
+  }, [currentRouteData]);
+  
   return (
     <html lang="en" className="dark">
       <head>
@@ -40,6 +52,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Navbar />
         {children}
         <ScrollRestoration />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: (currentRouteData as any)?.apolloState
+              ? `window.__APOLLO_STATE__=${JSON.stringify(
+                  JSON.parse(JSON.stringify((currentRouteData as any).apolloState))
+                ).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/\//g, '\\u002f')};`
+              : '',
+          }}
+        />
         <Scripts />
       </body>
     </html>

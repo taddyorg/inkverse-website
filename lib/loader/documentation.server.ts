@@ -1,9 +1,14 @@
 import { type LoaderFunctionArgs } from "react-router";
-import { getApolloClient } from "@/lib/apollo.server";
+import { getApolloClient } from "@/lib/apollo/client.server";
 import { type GetDocumentationQuery, type GetDocumentationQueryVariables, GetDocumentation } from "@/shared/graphql/operations";
 import { handleLoaderError } from "./error-handler";
 
-export async function loadDocumentation({ params, request, context }: LoaderFunctionArgs, basePath: string): Promise<GetDocumentationQuery['getDocumentation']> {
+export type DocumentationLoaderData = {
+  documentation: GetDocumentationQuery['getDocumentation'];
+  apolloState: Record<string, any>;
+};
+
+export async function loadDocumentation({ params, request, context }: LoaderFunctionArgs, basePath: string): Promise<DocumentationLoaderData> {
   const fullPath = params.slug 
       ? `${basePath}/${params.slug}` 
       : basePath;
@@ -20,7 +25,13 @@ export async function loadDocumentation({ params, request, context }: LoaderFunc
       throw new Response("Not Found", { status: 404 });
     }
 
-    return data.getDocumentation;
+    const state = client.extract();
+
+    return {
+      documentation: data.getDocumentation,
+      apolloState: state,
+    };
+
   } catch (error) {
     handleLoaderError(error, 'Documentation');
   }

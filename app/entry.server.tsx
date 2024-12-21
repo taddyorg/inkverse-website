@@ -23,13 +23,11 @@ export default function handleRequest(
     let shellRendered = false;
     
     const { pipe, abort } = renderToPipeableStream(
-      // <ApolloProvider client={client}>
         <ServerRouter
           context={reactRouterContext}
           url={request.url}
           abortDelay={ABORT_DELAY}
         />,
-      // </ApolloProvider>,
       {
         onShellReady() {
           shellRendered = true;

@@ -14,14 +14,14 @@ declare global {
 import { HydratedRouter } from "react-router/dom";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import config from '@/config';
+import { ApolloProvider } from '@apollo/client';
+import { initClient } from "@/lib/apollo/client.client"
 
 startTransition(() => {
-  const client = new ApolloClient({
-    cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
-    uri: config.SERVER_URL
-  });
+
+  // Initialize Apollo client with the hydrated state
+  const apolloState = window.__APOLLO_STATE__ || {};
+  const client = initClient(apolloState);
 
   hydrateRoot(
     document,
