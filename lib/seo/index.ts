@@ -2,7 +2,7 @@ export const getMetaTags = (
 	title: string,
 	description: string,
 	url: string,
-	imageURL: string = 'https://ink0.inkverse.co/general/inkverse-brandmark-white.png'
+	imageURL: string | null | undefined = 'https://ink0.inkverse.co/general/inkverse-brandmark-white.png'
 ) => {
 	return [
 		{ title },

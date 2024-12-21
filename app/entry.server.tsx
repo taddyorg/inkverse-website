@@ -6,15 +6,12 @@
 
 import { PassThrough } from "node:stream";
 
-import type { AppLoadContext, EntryContext } from "react-router";
+import type { EntryContext } from "react-router";
 import { createReadableStreamFromReadable } from "@react-router/node";
 import { ServerRouter } from "react-router";
 import { renderToPipeableStream } from "react-dom/server";
-import pkg from '@apollo/client';
-const { ApolloProvider } = pkg;
-import { getApolloClient } from "@/lib/apollo.server";
 
-const ABORT_DELAY = 5_000;
+const ABORT_DELAY = 5000;
 
 export default function handleRequest(
   request: Request,
@@ -23,17 +20,16 @@ export default function handleRequest(
   reactRouterContext: EntryContext
 ) {
   return new Promise((resolve, reject) => {
-    const client = getApolloClient(request);
     let shellRendered = false;
     
     const { pipe, abort } = renderToPipeableStream(
-      <ApolloProvider client={client}>
+      // <ApolloProvider client={client}>
         <ServerRouter
           context={reactRouterContext}
           url={request.url}
           abortDelay={ABORT_DELAY}
-        />
-      </ApolloProvider>,
+        />,
+      // </ApolloProvider>,
       {
         onShellReady() {
           shellRendered = true;
@@ -41,13 +37,6 @@ export default function handleRequest(
           const stream = createReadableStreamFromReadable(body);
 
           responseHeaders.set("Content-Type", "text/html");
-
-          // Add Apollo state to the response headers
-          const initialState = client.extract();
-          responseHeaders.set(
-            "Apollo-State",
-            JSON.stringify(initialState).replace(/</g, "\\u003c")
-          );
 
           resolve(
             new Response(stream, {
@@ -59,6 +48,7 @@ export default function handleRequest(
           pipe(body);
         },
         onShellError(error: unknown) {
+          console.error('Shell rendering failed:', error);
           reject(error);
         },
         onError(error: unknown) {

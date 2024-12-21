@@ -12,4 +12,8 @@ export default defineConfig({
   },
   plugins: [reactRouter(), tsconfigPaths()],
   publicDir: 'assets',
+  server: {
+    host: 'inkverse.test',
+    port: 8082,
+  },
 });

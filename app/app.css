@@ -2,11 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base styles for light/dark mode */
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  @apply bg-white dark:bg-inkverse-black;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+/* Theme classes */
+.dark {
+  @apply bg-inkverse-black text-white;
+}
+
+.light {
+  @apply bg-white text-black;
+}
+
+@media (prefers-color-scheme: light) {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  color-scheme: dark;
 }
