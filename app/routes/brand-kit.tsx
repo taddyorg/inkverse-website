@@ -1,8 +1,9 @@
 import { type LoaderFunctionArgs, type MetaFunction } from "react-router";
 import { useLoaderData } from "react-router";
-import { NotionWrapper } from "@/components/ui/NotionWrapper";
 import { loadDocumentation } from "@/lib/loader/documentation.server";
 import { getDocumentMeta } from "@/lib/meta/documentation";
+
+import { NotionWrapper } from "../components/ui/NotionWrapper";
 
 export const loader = async ({ params, request, context }: LoaderFunctionArgs) => {
   return await loadDocumentation({ params, request, context }, "/brand-kit");

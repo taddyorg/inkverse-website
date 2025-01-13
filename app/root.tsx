@@ -6,12 +6,17 @@ import {
   Scripts,
   ScrollRestoration,
   useMatches,
+  useLoaderData,
+  type LoaderFunction,
 } from "react-router";
+
+import { useEffect, useState } from 'react';
+import { getTheme } from "@/lib/action/theme";
 
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 import { getClient } from "@/lib/apollo/client.client";
-import { useEffect } from 'react';
+import { Navbar } from './components/ui';
 
 import 'react-notion-x/src/styles.css'
 import 'prismjs/themes/prism-tomorrow.css'
@@ -25,13 +30,27 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;800&display=swap",
   },
   { rel: "stylesheet", href: stylesheet },
+  { rel: "icon", type: "image/x-icon", href: "/favicon/favicon.ico" },
+  { rel: "apple-touch-icon", href: "/favicon/apple-touch-icon.png" },
+  { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon/favicon-32x32.png" },
+  { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon/favicon-16x16.png" },
+  { rel: "icon", type: "image/png", sizes: "192x192", href: "/favicon/android-chrome-192x192.png" },
+  { rel: "icon", type: "image/png", sizes: "512x512", href: "/favicon/android-chrome-512x512.png" },
 ];
 
+export const loader: LoaderFunction = async ({ request }) => {
+  const theme = await getTheme(request);
+  return { theme };
+};
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { theme: initialTheme } = useLoaderData<{ theme: string }>();
+  const [theme, setTheme] = useState(initialTheme);
   const matches = useMatches();
   const currentRouteData = matches[matches.length - 1]?.data;
   
   useEffect(() => {
+    // Handle Apollo state restoration
     if ((currentRouteData as any)?.apolloState) {
       const client = getClient();
       if (client) {
@@ -39,17 +58,36 @@ export function Layout({ children }: { children: React.ReactNode }) {
       }
     }
   }, [currentRouteData]);
+
+  const toggleTheme = async () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    document.documentElement.className = newTheme;
+    
+    // Update the fetch path
+    const response = await fetch('/api/theme', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ theme: newTheme }),
+    });
+    
+    if (response.ok) {
+      setTheme(newTheme);
+    }
+  };
   
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={theme}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body>
-        <Navbar />
+      <body className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+        <Navbar isDarkMode={theme === 'dark'} onThemeToggle={toggleTheme} />
         {children}
         <ScrollRestoration />
         <script
@@ -69,26 +107,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />;
-}
-
-function Navbar() {
-  const ignoreNavRoutes = ["/blog", "/terms-of-service", "/open-source", "/brand-kit"];
-  const matches = useMatches();
-  
-  // Check if the current route starts with any of the ignoreNavRoutes
-  const ignoreNav = matches.some((match) => 
-    ignoreNavRoutes.some(route => match.pathname.startsWith(route))
-  );
-
-  return (ignoreNav ? null :
-    <nav className="p-4">
-      <ul className="flex space-x-4">
-        <li><a href="/" className="text-white">Home</a></li>
-        <li><a href="/about" className="text-white">About</a></li>
-        <li><a href="/contact" className="text-white">Contact</a></li>
-      </ul>
-    </nav>
-  )
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

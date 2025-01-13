@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { getMetaTags } from "@/lib/seo";
 
-export function meta({}: Route.MetaArgs) {
-  return getMetaTags("Inkverse", "Discover the best indie webtoons!", "https://inkverse.co");
-}
-
 const MainCopy = {
   title: "Discover the best indie webtoons!",
+}
+
+export function meta({}: Route.MetaArgs) {
+  return getMetaTags("Discover the best indie webtoons!", "Find great indie webtoons & webcomics, Read original stories from emerging creators, with new chapters updated daily. Download now to join our growing community of readers and artists.", "https://inkverse.co");
 }
 
 const footerNavigation = {

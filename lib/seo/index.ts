@@ -1,20 +1,22 @@
 export const getMetaTags = (
-	title: string,
-	description: string,
-	url: string,
-	imageURL: string | null | undefined = 'https://ink0.inkverse.co/general/inkverse-brandmark-white.png'
+	title: string | null = '',
+	description: string | null = '',
+	url: string | null = '',
+	imageURL: string | null = 'https://ink0.inkverse.co/general/inkverse-brandmark-white.png'
 ) => {
+	const improvedTitle = `${title} - Inkverse Webtoons & Webcomics`;
+
 	return [
-		{ title },
+		{ title: improvedTitle },
 		{ name: "description", content: description },
 
 		{ name: 'twitter:card', content: 'summary_large_image' },
-		{ name: 'twitter:title', content: title },
+		{ name: 'twitter:title', content: improvedTitle },
 		{ name: 'twitter:description', content: description },
 		{ name: 'twitter:image', content: imageURL },
 		{ name: 'twitter:image:src', content: imageURL },
 
-		{ property: 'og:title', content: title },
+		{ property: 'og:title', content: improvedTitle },
 		{ property: 'og:type', content: 'website' },
 		{ property: 'og:url', content: url },
 		{ property: 'og:image', content: imageURL },

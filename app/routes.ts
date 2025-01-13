@@ -7,4 +7,5 @@ export default [
     route("brand-kit/:slug?", "routes/brand-kit.tsx"),
     route("terms-of-service/:slug?", "routes/terms-of-service.tsx"),
     route("comics/:shortUrl?", "routes/comics.tsx"),
+    route("api/theme", "routes/api.theme.ts"),
 ] satisfies RouteConfig;

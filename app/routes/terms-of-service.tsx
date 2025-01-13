@@ -1,6 +1,6 @@
 import { type LoaderFunctionArgs, type MetaFunction } from "react-router";
 import { useLoaderData } from "react-router";
-import { NotionWrapper } from "@/components/ui/NotionWrapper";
+import { NotionWrapper } from "../components/ui/NotionWrapper";
 import { loadDocumentation } from "@/lib/loader/documentation.server";
 import { getDocumentMeta } from "@/lib/meta/documentation";
 
