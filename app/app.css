@@ -14,13 +14,5 @@ body {
 }
 
 .light {
-  @apply bg-white text-black;
-}
-
-@media (prefers-color-scheme: light) {
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  color-scheme: dark;
+  @apply bg-white text-inkverse-black;
 }

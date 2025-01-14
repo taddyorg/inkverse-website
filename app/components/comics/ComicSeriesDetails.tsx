@@ -23,7 +23,7 @@ function ComicSeriesDetails(props: ComicSeriesDetailsProps){
   if (!comicseries) { return <></>; }
 
   return (
-    <Section className="bg-white px-4 py-6 mt-2 sm:px-6 lg:px-8 rounded-md">
+    <Section className="py-6 mt-2 px-4 sm:px-6 lg:px-8 rounded-md">
       <div className="flex flex-col sm:flex-row ">
         <CoverArt comicseries={comicseries} pageType={pageType} />
         <div className="sm:w-2/3 sm:pl-4">
@@ -182,7 +182,7 @@ const ReadFirstIssueButton = ({ comicseries, firstIssue }: { comicseries: ComicS
   return (
     <Link 
       to={link} 
-      className='flex items-center justify-center px-4 py-2 rounded-full text-sm font-bold transition-colors duration-150 bg-green-500 text-white hover:bg-green-600 mr-2'
+      className='flex items-center justify-center px-4 py-2 mr-2 rounded-full text-sm font-bold transition-colors duration-150 text-white bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700'
     >
       <FaPlay className="mr-2" size={12} />
       <span>Read Ep 1</span>

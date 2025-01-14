@@ -3,18 +3,12 @@ import { useLoaderData } from 'react-router';
 
 // import { SimpleLoadingComponent } from '@/components/ui';
 import ComicSeriesDetails from '../components/comics/ComicSeriesDetails';
-// import ComicRecommendations from '@/components/comics/ComicRecommendations';
-// import ComicIssuesBox from '@/components/comics/ComicIssuesBox';
-// import SEO from '@/components/seo';
+import ComicIssuesBox from '../components/comics/ComicIssuesBox';
 
-import { loadComicSeries } from '@/lib/loader/comics.server';
+import { loadComicSeries } from '@/lib/loader/comicseries.server';
 import { getMetaTags } from '@/lib/seo';
 import { getInkverseUrl, InkverseUrlType, inkverseWebsiteUrl } from '@/public/utils';
 import { getBannerImageUrl } from '@/public/comicseries';
-
-// import ComicSeriesDetails from '@/components/comics/ComicSeriesDetails';
-// import { getComicInfoScreen, comicInfoReducer } from '@/shared/dispatch/comic_info';
-// import { getComicSeriesTitle, getComicSeriesDescription, getComicSeriesUrl, getComicSeriesImageUrl } from './helper';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) { return []; }
@@ -62,6 +56,10 @@ function ComicSeriesScreen() {
         comicseries={comicSeriesData?.comicseries} 
         firstIssue={comicSeriesData?.issues?.[0]}
         pageType="comicseries" 
+      />
+      <ComicIssuesBox 
+        comicseries={comicSeriesData?.comicseries} 
+        issues={comicSeriesData?.issues?.filter((issue) => issue !== null)}
       />
     </div>
   );

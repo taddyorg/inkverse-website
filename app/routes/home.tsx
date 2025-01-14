@@ -5,20 +5,20 @@ import { useEffect } from "react";
 import { getMetaTags } from "@/lib/seo";
 
 const MainCopy = {
-  title: "Discover the best indie webtoons!",
+  title: "Discover the best webtoons!",
 }
 
 export function meta({}: Route.MetaArgs) {
-  return getMetaTags("Discover the best indie webtoons!", "Find great indie webtoons & webcomics, Read original stories from emerging creators, with new chapters updated daily. Download now to join our growing community of readers and artists.", "https://inkverse.co");
+  return getMetaTags("Discover the best webtoons!", "Find great webtoons & webcomics, Read original stories from emerging creators, with new chapters updated daily. Download now to join our growing community of readers and artists.", "https://inkverse.co");
 }
 
 const footerNavigation = {
   company: [
+    { name: 'Blog', href: '/blog', type: 'internal' },
     { name: 'Terms', href: '/terms-of-service', type: 'internal' },
     { name: 'Privacy', href: '/terms-of-service/privacy-policy', type: 'internal' },
-    { name: 'Blog', href: '/blog', type: 'internal' },
     { name: 'Product Roadmap', href: 'https://inkverse.canny.io', type: 'external' },
-    { name: 'Promote your Webtoon', href: '/brand-kit', type: 'internal', additionalStyling: 'pb-2' },
+    { name: 'Download Mobile App', href: '/download-app', type: 'internal', additionalStyling: 'pb-2' },
     { name: 'Publish your Webtoon on Inkverse', href: 'https://taddy.org/upload-on-taddy?ref=inkverse.co', type: 'external', buttonStyling: 'bg-red-500 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-full' },
   ],
   social: [
@@ -126,7 +126,7 @@ export default function Home() {
                   <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 text-center flex flex-col justify-center align-center items-center">
                     {/* <img className="my-6 max-h-20" src="https://ax0.taddy.org/inkverse/inkverse-simple.png" alt="Inkverse Logo" /> */}
                     <h1 className="mt-4 mb-4 text-4xl font-bold tracking-tight sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
-                        <span className="block text-white">{MainCopy.title}</span>
+                        <span className="block">{MainCopy.title}</span>
                     </h1>
                     <div className="md:grid md:grid-cols-2 md:gap-8">
                       <a href="https://inkverse.co/ios" target="_blank">
@@ -139,13 +139,6 @@ export default function Home() {
                     <div className="text-center hidden md:block">
                       <img className="my-6 max-h-60 aspect-1" src="https://ax0.taddy.org/bam/bam-qr-code-1.png" alt="QR Code" />
                     </div>
-                  </div>
-                  <div className="text-center">
-                    <h2 className="text-2xl font-bold tracking-tight sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
-                      <Link to="/comics/fragmented-dreams" prefetch="intent" className="block text-white">
-                        Fragmented Dreams
-                      </Link>
-                    </h2>
                   </div>
                 </div>
               </div>
@@ -162,10 +155,10 @@ export default function Home() {
                         {footerNavigation.company.map((item) => (
                           <li key={item.name} className={item.additionalStyling}>
                             {item.type === 'internal' 
-                              ? <Link to={item.href} prefetch="intent" className="text-base text-gray-400 hover:text-white">
+                              ? <Link to={item.href} prefetch="intent" className="text-base hover:text-gray-400">
                                   {item.name}
                                 </Link>
-                              : <a href={item.href} target="_blank" className={item.buttonStyling || 'text-base text-gray-400 hover:text-white'}>
+                              : <a href={item.href} target="_blank" className={item.buttonStyling || 'text-base hover:text-gray-400'}>
                                   {item.name}
                                 </a>
                             }

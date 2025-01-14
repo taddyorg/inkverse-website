@@ -5,7 +5,7 @@ export const themeCookie = createCookie("theme", {
   sameSite: "lax",
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  maxAge: 60 * 60 * 24 * 365,
+  maxAge: 60 * 60 * 24 * 400,
 });
 
 export async function getTheme(request: Request) {

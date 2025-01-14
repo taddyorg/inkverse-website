@@ -6,6 +6,9 @@ export default [
     route("open-source/:slug?", "routes/open-source.tsx"),
     route("brand-kit/:slug?", "routes/brand-kit.tsx"),
     route("terms-of-service/:slug?", "routes/terms-of-service.tsx"),
-    route("comics/:shortUrl?", "routes/comics.tsx"),
+    route("comics/:shortUrl", "routes/comicseries.tsx"),
+    route("comics/:shortUrl/:episodeId", "routes/comicissue.tsx"),
     route("api/theme", "routes/api.theme.ts"),
+    route("download-app", "routes/download-app.tsx"),
+    route("*", "routes/error.tsx"),
 ] satisfies RouteConfig;
