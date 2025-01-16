@@ -30,7 +30,7 @@ export function ComicIssuesList(props: ComicIssuesBoxProps) {
           key={comicissue.uuid}
           comicseries={comicseries}
           comicissue={comicissue}
-          position={index}
+          position={comicissue.position || 0}
         />
       ))}
       {/* {issues.length > 5 && (

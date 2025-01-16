@@ -1,8 +1,7 @@
 import { useLoaderData } from "react-router";
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 
-
-import ComicIssuePage from "../components/comics/ComicIssuePage";
+import { ComicIssuePage } from "../components/comics/ComicIssuePage";
 
 import { getMetaTags } from "@/lib/seo";
 import type { ComicIssue } from '@/shared/graphql/operations';
