@@ -28,9 +28,9 @@ export const loader = async ({ params, request, context }: LoaderFunctionArgs) =
 
 export default function ComicIssue() {
   const { comicissue, comicseries, allIssues } = useLoaderData<typeof loader>();
-
+  const isSkinnyReadingMode = true;
   return (
-    <div className="max-w-3xl mx-auto sm:p-6 lg:p-8">
+    <div className={`mx-auto sm:p-6 lg:p-8 ${isSkinnyReadingMode ? 'max-w-xl' : 'max-w-3xl'}`}>
       <ComicIssuePage 
         comicissue={comicissue} 
         comicseries={comicseries} 

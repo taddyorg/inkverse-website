@@ -142,8 +142,9 @@ type PreviewComicIssueWrapperProps = {
 
 const PreviewComicIssueWrapper = (props: PreviewComicIssueWrapperProps) => {
   const { comicseries, comicissue, isCurrentIssue } = props;
+  const isSkinnyReadingMode = true;
   const wrapperProps = {
-    className: "flex-shrink-0 w-1/2 md:w-1/3 lg:w-1/4 p-2 snap-start",
+    className: `flex-shrink-0 w-1/2 md:w-1/3 ${!isSkinnyReadingMode ? 'lg:w-1/4' : ''} p-2 snap-start`,
     'data-issue-id': comicissue?.uuid
   };
 

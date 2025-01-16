@@ -9,6 +9,7 @@ export default [
     route("comics/:shortUrl", "routes/comicseries.tsx"),
     route("comics/:shortUrl/:episodeId", "routes/comicissue.tsx"),
     route("creators/:shortUrl", "routes/creator.tsx"),
+    route("lists/:id", "routes/list.tsx"),
     route("api/theme", "routes/api.theme.ts"),
     route("download-app", "routes/download-app.tsx"),
     route("*", "routes/error.tsx"),

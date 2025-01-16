@@ -15,12 +15,14 @@ export enum ComicSeriesPageType {
   MOST_POPULAR = 'MOST_POPULAR',
   COVER = 'COVER',
   SEARCH = 'SEARCH',
+  LIST = 'LIST',
 }
 
 type ComicSeriesDetailsProps = {
   comicseries: ComicSeries | null | undefined;
   pageType: ComicSeriesPageType;
   firstIssue?: ComicIssue | null | undefined;
+  index?: number;
 }
 
 export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
@@ -44,25 +46,61 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
   }
 
   else if (pageType === ComicSeriesPageType.FEATURED_BANNER) {
-      const link2 = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries.shortUrl });
-      if (!link2) { return <></>; }
+      const link = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries.shortUrl });
+      if (!link) { return <></>; }
 
       return (
-        <Link to={link2}>
+        <Link to={link}>
           <CoverArt comicseries={comicseries} pageType={pageType} />
         </Link>
       );
   }
 
   else if (pageType === ComicSeriesPageType.COVER) {
-    const coverLink = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries.shortUrl });
-    if (!coverLink) { return <></>; }
+    const link = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries.shortUrl });
+    if (!link) { return <></>; }
 
       return (
-        <Link to={coverLink}>
+        <Link to={link}>
           <CoverArt comicseries={comicseries} pageType={pageType} />
         </Link>
       );
+  }
+
+  else if (pageType === ComicSeriesPageType.SEARCH) {
+    return (
+      <div className="flex flex-col sm:flex-row ">
+        <CoverArt comicseries={comicseries} pageType={pageType} />
+        <div className="sm:w-2/3 sm:pl-4">
+          <Name comicseries={comicseries} pageType={pageType}/>
+          <div className='flex flex-row justify-between'>
+            <Genre comicseries={comicseries} pageType={pageType}/>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+
+  else if (pageType === ComicSeriesPageType.LIST) {
+    const link = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries.shortUrl });
+    if (!link) { return <></>; }
+
+    return (
+      <Link to={link} className="block w-full">
+        <div className="flex gap-6 py-6">
+          <span className="text-lg font-semibold">{props.index || 1}.</span>
+          <div className="flex flex-1 gap-6">
+            <CoverArt comicseries={comicseries} pageType={pageType} />
+            <div className="flex-1">
+              <Name comicseries={comicseries} pageType={pageType}/>
+              <Genre comicseries={comicseries} pageType={pageType}/>
+              <p className='mt-3'>{comicseries?.description}</p>
+            </div>
+          </div>
+        </div>
+      </Link>
+    );
   }
   
   return (
@@ -124,6 +162,7 @@ const CoverArt = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
         />
     );
     case ComicSeriesPageType.SEARCH:
+    case ComicSeriesPageType.LIST:
       return (
         <img
           src={getThumbnailImageUrl({ thumbnailImageAsString: comicseries.thumbnailImageAsString }) || undefined}

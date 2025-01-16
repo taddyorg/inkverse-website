@@ -101,9 +101,18 @@ const FeaturedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | null |
 }
 
 const MostRecommendedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | null | undefined }) => {
+  const seeAllUrl = getInkverseUrl({ type: InkverseUrlType.LIST, id: '1', name: 'Most Recommended' });
+
   return (
     <div>
-      <h2 className='text-2xl font-semibold mt-2 mb-4'>Most Recommended Comics</h2>
+      <div className="flex justify-between items-center">
+        <h2 className='text-2xl font-semibold mt-2 mb-4 pr-40'>Most Recommended Comics</h2>
+        {seeAllUrl && (
+          <Link to={seeAllUrl} className="font-semibold">
+            See All
+          </Link>
+        )}
+      </div>
       <div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {comicSeries?.map((series) => (
