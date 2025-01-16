@@ -1,6 +1,6 @@
 import { Link, useLoaderData, type LoaderFunctionArgs, type MetaFunction } from "react-router";
 
-import ComicSeriesDetails, { ComicSeriesPageType } from "../components/comics/ComicSeriesDetails";
+import { ComicSeriesDetails, ComicSeriesPageType } from "../components/comics/ComicSeriesDetails";
 
 import { getMetaTags } from "@/lib/seo";
 import { loadHomeScreen } from "@/lib/loader/home.server";
@@ -151,9 +151,11 @@ const RecentlyUpdatedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] |
       <div className="overflow-x-auto">
         <div className="flex gap-4 pb-4">
           {comicSeries?.map((series) => (
-            <div className="flex-none">
+            <div 
+              key={series.uuid} 
+              className="flex-none"
+            >
               <ComicSeriesDetails 
-                key={series.uuid} 
                 comicseries={series} 
                 pageType={ComicSeriesPageType.COVER} 
               />
@@ -172,9 +174,11 @@ const RecentlyAddedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | n
       <div className="overflow-x-auto">
         <div className="flex gap-4 pb-4">
           {comicSeries?.map((series) => (
-            <div className="flex-none">
+            <div 
+              key={series.uuid} 
+              className="flex-none"
+            >
               <ComicSeriesDetails 
-                key={series.uuid} 
                 comicseries={series} 
                 pageType={ComicSeriesPageType.COVER} 
               />

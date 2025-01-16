@@ -14,7 +14,7 @@ interface ComicIssuePageProps {
   allIssues: ComicIssue[] | null | undefined;
 }
 
-function ComicIssuePage(props: ComicIssuePageProps){
+export function ComicIssuePage(props: ComicIssuePageProps){
   const { comicissue, comicseries, allIssues } = props;
 
   const comicSeriesLink = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries?.shortUrl });
@@ -206,6 +206,3 @@ const PreviewComicIssue = (props: PreviewComicIssueWrapperProps) => {
     </div>
   );
 };
-
-
-export default ComicIssuePage;

@@ -2,31 +2,31 @@ import type { LoaderFunctionArgs, MetaFunction } from 'react-router-dom';
 import { useLoaderData } from 'react-router';
 
 // import { SimpleLoadingComponent } from '@/components/ui';
-import { ComicSeriesDetails, ComicSeriesPageType } from '../components/comics/ComicSeriesDetails';
-import { ComicIssuesList } from '../components/comics/ComicIssuesList';
+import { CreatorPageType, CreatorDetails } from '../components/creator/CreatorDetails';
+import { CreatorComics } from '../components/creator/CreatorComics';
 
-import { loadComicSeries } from '@/lib/loader/comicseries.server';
+import { loadCreator } from '@/lib/loader/creator.server';
 import { getMetaTags } from '@/lib/seo';
 import { getInkverseUrl, InkverseUrlType, inkverseWebsiteUrl } from '@/public/utils';
-import { getBannerImageUrl } from '@/public/comicseries';
+import { getAvatarImageUrl } from '@/public/creator';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) { return []; }
-  else if (!data.comicseries) { return []; }
+  else if (!data.creator) { return []; }
   return getMetaTags(
-    data.comicseries.name, 
-    data.comicseries.description,
-    `${inkverseWebsiteUrl}${getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: data.comicseries.shortUrl })}`,
-    getBannerImageUrl({ bannerImageAsString: data.comicseries.bannerImageAsString }),
+    data.creator.name, 
+    data.creator.bio,
+    `${inkverseWebsiteUrl}${getInkverseUrl({ type: InkverseUrlType.CREATOR, shortUrl: data.creator.shortUrl })}`,
+    getAvatarImageUrl({ avatarImageAsString: data.creator.avatarImageAsString }),
   );
 };
 
 export const loader = async ({ params, request, context }: LoaderFunctionArgs) => {
-  return await loadComicSeries({ params, request, context });
+  return await loadCreator({ params, request, context });
 };
 
-function ComicSeriesScreen() {
-  const comicSeriesData = useLoaderData<typeof loader>();
+function CreatorScreen() {
+  const creatorData = useLoaderData<typeof loader>();
   // const { match = {}, location, comicseries:SSRComicseries } = props;
 
   // const [ comicseriesQuery, comicseriesQueryDispatch] = useReducer(comicInfoReducer, {});
@@ -52,17 +52,16 @@ function ComicSeriesScreen() {
   
   return (
     <div className="max-w-3xl mx-auto sm:p-6 lg:p-8">
-      <ComicSeriesDetails 
-        comicseries={comicSeriesData?.comicseries} 
-        firstIssue={comicSeriesData?.issues?.[0]}
-        pageType={ComicSeriesPageType.COMICSERIES_SCREEN} 
+      <CreatorDetails 
+        creator={creatorData?.creator} 
+        pageType={CreatorPageType.CREATOR_SCREEN} 
       />
-      <ComicIssuesList 
-        comicseries={comicSeriesData?.comicseries} 
-        issues={comicSeriesData?.issues?.filter((issue) => issue !== null)}
+      <CreatorComics 
+        comicseries={creatorData?.comicseries?.filter((comicseries) => comicseries !== null)} 
+        pageType={CreatorPageType.CREATOR_SCREEN} 
       />
     </div>
   );
 }
 
-export default ComicSeriesScreen;
+export default CreatorScreen;

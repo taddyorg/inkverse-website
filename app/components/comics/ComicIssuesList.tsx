@@ -14,7 +14,7 @@ type ComicIssuesBoxProps = {
   issues: ComicIssue[] | null | undefined;
 }
   
-function ComicIssuesBox(props: ComicIssuesBoxProps) {
+export function ComicIssuesList(props: ComicIssuesBoxProps) {
   const { comicseries, issues } = props;
   const [showAll, setShowAll] = useState(false);
 
@@ -125,5 +125,3 @@ const ComicIssueDetails = ({ comicseries, comicissue, position }: { comicseries:
     </Link>
   );
 }
-
-export default ComicIssuesBox;

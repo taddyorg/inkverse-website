@@ -23,7 +23,7 @@ type ComicSeriesDetailsProps = {
   firstIssue?: ComicIssue | null | undefined;
 }
 
-function ComicSeriesDetails(props: ComicSeriesDetailsProps){
+export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
   const { comicseries, firstIssue, pageType } = props;
 
   if (!comicseries) { return <></>; }
@@ -260,5 +260,3 @@ const ReadFirstIssueButton = ({ comicseries, firstIssue }: { comicseries: ComicS
     </Link>
   );
 }
-
-export default ComicSeriesDetails;
