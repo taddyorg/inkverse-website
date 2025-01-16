@@ -1,15 +1,24 @@
-import { Link } from "react-router";
-import type { Route } from "./+types/home";
-import { useState } from "react";
-import { useEffect } from "react";
+import { Link, useLoaderData, type LoaderFunctionArgs, type MetaFunction } from "react-router";
+
+import ComicSeriesDetails, { ComicSeriesPageType } from "../components/comics/ComicSeriesDetails";
+
 import { getMetaTags } from "@/lib/seo";
+import { loadHomeScreen } from "@/lib/loader/home.server";
+import type { ComicSeries, List } from "@/shared/graphql/types";
+import { getInkverseUrl } from "@/public/utils";
+import { InkverseUrlType } from "@/public/utils";
 
 const MainCopy = {
   title: "Discover the best webtoons!",
+  description: "Find great webtoons & webcomics, Read original stories from emerging creators, with new chapters updated daily. Download now to join our growing community of readers and artists.",
 }
 
-export function meta({}: Route.MetaArgs) {
-  return getMetaTags("Discover the best webtoons!", "Find great webtoons & webcomics, Read original stories from emerging creators, with new chapters updated daily. Download now to join our growing community of readers and artists.", "https://inkverse.co");
+export const meta: MetaFunction = () => {
+  return getMetaTags(
+    MainCopy.title, 
+    MainCopy.description,
+    "https://inkverse.co"
+  );
 }
 
 const footerNavigation = {
@@ -19,7 +28,7 @@ const footerNavigation = {
     { name: 'Privacy', href: '/terms-of-service/privacy-policy', type: 'internal' },
     { name: 'Product Roadmap', href: 'https://inkverse.canny.io', type: 'external' },
     { name: 'Download Mobile App', href: '/download-app', type: 'internal', additionalStyling: 'pb-2' },
-    { name: 'Publish your Webtoon on Inkverse', href: 'https://taddy.org/upload-on-taddy?ref=inkverse.co', type: 'external', buttonStyling: 'bg-red-500 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-full' },
+    { name: 'Publish your Webtoon on Inkverse', href: 'https://taddy.org/upload-on-taddy?ref=inkverse.co', type: 'external', buttonStyling: 'bg-red-500 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-800 text-white font-semibold px-6 py-3 rounded-full' },
   ],
   social: [
     {
@@ -54,139 +63,169 @@ const footerNavigation = {
   ],
 }
 
-function AppStoreImageLoader(){
-  // State to track if the video is loaded
-  const [videoLoaded, setVideoLoaded] = useState(false);
-
-  const VIDEO_URL = "https://ax0.taddy.org/inkverse/inkverse-hearts.mp4";
-  const IMAGE_URL = "https://ax0.taddy.org/inkverse/inkverse-hearts.png";
-
-  useEffect(() => {
-    // Create a new Video element to preload the video
-    const videoPreloader = document.createElement('video');
-
-    // Set the source of the preloader to the video
-    videoPreloader.src = VIDEO_URL; // Replace with the actual path to your video
-
-    // When the preloader has loaded the video
-    videoPreloader.onloadeddata = function () {
-      // Set the videoLoaded state to true
-      setVideoLoaded(true);
-    };
-  }, []);
-
-  return (
-    <div className="w-1/2 h-auto mx-auto">
-      {/* The actual video (hidden initially) */}
-      
-      {videoLoaded && (
-        <video src={VIDEO_URL} autoPlay muted loop className="w-full h-auto inset-0 z-0" />
-      )}
-
-      {/* The image (visible initially) */}
-      <img
-        src={IMAGE_URL}
-        alt="Inkverse"
-        className={`w-full h-auto inset-0 z-10 ${videoLoaded ? 'hidden' : ''}`}
-      />
-    </div>
-  );
+export const loader = async ({ params, request, context }: LoaderFunctionArgs) => {
+  return await loadHomeScreen({ params, request, context });
 };
 
 export default function Home() {
+  const homeScreenData = useLoaderData<typeof loader>();
+
   return (
-    <>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="flex flex-col gap-4 p-2 md:p-10 lg:p-20 lg:pt-10">
+        <FeaturedWebtoons comicSeries={homeScreenData.featuredComicSeries} />
+        <MostRecommendedWebtoons comicSeries={homeScreenData.mostPopularComicSeries} />
+        <CuratedLists lists={homeScreenData.curatedLists} />
+        <RecentlyUpdatedWebtoons comicSeries={homeScreenData.recentlyUpdatedComicSeries} />
+        <RecentlyAddedWebtoons comicSeries={homeScreenData.recentlyAddedComicSeries} />
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+
+const FeaturedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | null | undefined }) => {
+  const firstComicSeries = comicSeries?.[0];
+  return (
+    <div>
+      {firstComicSeries && (
+        <ComicSeriesDetails 
+          key={firstComicSeries.uuid} 
+          comicseries={firstComicSeries} 
+          pageType={ComicSeriesPageType.FEATURED_BANNER} 
+        />
+      )}
+    </div>
+  );
+}
+
+const MostRecommendedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | null | undefined }) => {
+  return (
+    <div>
+      <h2 className='text-2xl font-semibold mt-2 mb-4'>Most Recommended Comics</h2>
       <div>
-        <main>
-            <div className="pt-10 px-4">
-              <div className="mx-auto">
-                <div className="md:grid md:grid-cols-2 md:gap-8">
-                  <AppStoreImageLoader />
-                  {/* Comic Stack View */}
-                  {/* <div className="relative">
-                    <div className="mx-auto max-w-7xl lg:px-8">
-                      <div className="grid grid-cols-1 gap-6">
-                        <div className="relative">
-                          {ComicFeatures.map((comic, index) => (
-                            <div 
-                              className="absolute right-1/2 transform translate-x-1/2"
-                              style={{ zIndex: ComicFeatures.length - index, top: `${index * 50}px`, right: `${index * 50}px` }} 
-                              key={comic.key}
-                            >
-                              <div className="flex items-center justify-center px-4">
-                                <img src={comic.coverImageUrl} alt={comic.name} className="rounded-3xl" />
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
-                  {/* <img className="my-12" src="https://ax0.taddy.org/bam/bam-big-logo-transparent-3.png" alt="bam banner!" /> */}
-                  <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 text-center flex flex-col justify-center align-center items-center">
-                    {/* <img className="my-6 max-h-20" src="https://ax0.taddy.org/inkverse/inkverse-simple.png" alt="Inkverse Logo" /> */}
-                    <h1 className="mt-4 mb-4 text-4xl font-bold tracking-tight sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
-                        <span className="block">{MainCopy.title}</span>
-                    </h1>
-                    <div className="md:grid md:grid-cols-2 md:gap-8">
-                      <a href="https://inkverse.co/ios" target="_blank">
-                        <img className="my-12 max-h-20 aspect-[575/177] hover:opacity-80" src="https://ax0.taddy.org/general/apple-app-store-badge.png" alt="Apple Badge" />
-                      </a>
-                      <a href="https://inkverse.co/android" target="_blank">
-                        <img className="my-12 max-h-20 aspect-[575/177] hover:opacity-80" src="https://ax0.taddy.org/general/google-play-badge.png" alt="Android Badge" />
-                      </a>
-                    </div>
-                    <div className="text-center hidden md:block">
-                      <img className="my-6 max-h-60 aspect-1" src="https://ax0.taddy.org/bam/bam-qr-code-1.png" alt="QR Code" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </main>
-          <footer aria-labelledby="footer-heading flex flex-col">
-            <h2 id="footer-heading" className="sr-only">
-              Footer
-            </h2>
-            <div className="px-4 pt-4 sm:px-6 lg:px-8 lg:pt-8 pb-8">
-                    <div>
-                      {/* <h3 className="text-base font-medium text-gray-400">Company</h3> */}
-                      <ul role="list" className="mt-20 space-y-4">
-                        {footerNavigation.company.map((item) => (
-                          <li key={item.name} className={item.additionalStyling}>
-                            {item.type === 'internal' 
-                              ? <Link to={item.href} prefetch="intent" className="text-base hover:text-gray-400">
-                                  {item.name}
-                                </Link>
-                              : <a href={item.href} target="_blank" className={item.buttonStyling || 'text-base hover:text-gray-400'}>
-                                  {item.name}
-                                </a>
-                            }
-                          </li>
-                        ))}
-                      </ul>
-                  </div>
-            </div>
-            <div className="flex justify-center items-center space-y-8 xl:col-span-1 px-6 py-6">
-            <div className="flex space-x-6">
-              {footerNavigation.social.map((item) => (
-                item.internalLink ? (
-                  <Link key={item.name} to={item.internalLink} className="text-gray-400 hover:text-gray-500">
-                    <span className="sr-only">{item.name}</span>
-                    <item.icon className="h-6 w-6" aria-hidden="true" />
-                  </Link>
-                ) : (
-                  <a key={item.name} href={item.href} target='_blank' className="text-gray-400 hover:text-gray-500">
-                    <span className="sr-only">{item.name}</span>
-                    <item.icon className="h-6 w-6" aria-hidden="true" />
-                  </a>
-                )
-                ))}
-              </div>
-            </div>
-          </footer>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {comicSeries?.map((series) => (
+            <ComicSeriesDetails 
+              key={series.uuid} 
+              comicseries={series} 
+              pageType={ComicSeriesPageType.MOST_POPULAR} 
+            />
+          ))}
         </div>
-      {/* </div> */}
-    </>
+      </div>
+    </div>
+  );
+}
+
+const CuratedLists = ({ lists }: { lists: List[] | null | undefined }) => {
+  return (
+    <div>
+      <h2 className='text-2xl font-semibold mt-2 mb-4'>Curated Picks by Inkverse</h2>
+      <div className="overflow-x-auto">
+        <div className="flex gap-4 pb-4">
+          {lists?.map((list) => {
+            const url = getInkverseUrl({ type: InkverseUrlType.LIST, id: list.id, name: list.name })
+            if (!url) return null;
+            return (
+              <Link key={list.id} to={url} className="flex-none w-[80vw] md:w-[60vw]">
+                <img 
+                  className="w-full rounded-lg object-cover object-center"
+                  src={list.bannerImageUrl || undefined} 
+                  alt={list.name || undefined} 
+                />
+              </Link>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const RecentlyUpdatedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | null | undefined }) => {
+  return (
+    <div>
+      <h2 className='text-2xl font-semibold mb-4'>Recently Updated</h2>
+      <div className="overflow-x-auto">
+        <div className="flex gap-4 pb-4">
+          {comicSeries?.map((series) => (
+            <div className="flex-none">
+              <ComicSeriesDetails 
+                key={series.uuid} 
+                comicseries={series} 
+                pageType={ComicSeriesPageType.COVER} 
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const RecentlyAddedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | null | undefined }) => {
+  return (
+    <div>
+      <h2 className='text-2xl font-semibold mb-4'>Recently Added</h2>
+      <div className="overflow-x-auto">
+        <div className="flex gap-4 pb-4">
+          {comicSeries?.map((series) => (
+            <div className="flex-none">
+              <ComicSeriesDetails 
+                key={series.uuid} 
+                comicseries={series} 
+                pageType={ComicSeriesPageType.COVER} 
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const Footer = () => {
+  return (
+    <footer aria-labelledby="footer-heading" className="flex flex-col gap-4 px-2 md:px-10 lg:px-20">
+      <h2 id="footer-heading" className="sr-only"> Footer </h2>
+      <div>
+        <div>
+          {/* <h3 className="text-base font-medium text-gray-400">Company</h3> */}
+          <ul role="list" className="space-y-4">
+            {footerNavigation.company.map((item) => (
+              <li key={item.name} className={item.additionalStyling}>
+                {item.type === 'internal' 
+                  ? <Link to={item.href} prefetch="intent" className="text-base hover:text-gray-400">
+                      {item.name}
+                    </Link>
+                  : <a href={item.href} target="_blank" className={item.buttonStyling || 'text-base hover:text-gray-400'}>
+                      {item.name}
+                    </a>
+                }
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className="flex justify-center items-center space-y-8 xl:col-span-1 px-6 py-6">
+        <div className="flex space-x-6">
+          {footerNavigation.social.map((item) => (
+            item.internalLink ? (
+              <Link key={item.name} to={item.internalLink} className="text-gray-400 hover:text-gray-500">
+                <span className="sr-only">{item.name}</span>
+                <item.icon className="h-6 w-6" aria-hidden="true" />
+              </Link>
+            ) : (
+              <a key={item.name} href={item.href} target='_blank' className="text-gray-400 hover:text-gray-500">
+                <span className="sr-only">{item.name}</span>
+                <item.icon className="h-6 w-6" aria-hidden="true" />
+              </a>
+            )
+          ))}
+        </div>
+      </div>
+    </footer>
   );
 }

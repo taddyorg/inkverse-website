@@ -2,7 +2,7 @@ import { useLoaderData } from "react-router";
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 
 
-import ComicIssueDetails from "../components/comics/ComicIssueDetails";
+import ComicIssuePage from "../components/comics/ComicIssuePage";
 
 import { getMetaTags } from "@/lib/seo";
 import type { ComicIssue } from '@/shared/graphql/operations';
@@ -32,7 +32,7 @@ export default function ComicIssue() {
 
   return (
     <div className="max-w-3xl mx-auto sm:p-6 lg:p-8">
-      <ComicIssueDetails 
+      <ComicIssuePage 
         comicissue={comicissue} 
         comicseries={comicseries} 
         allIssues={allIssues?.issues?.map((issue) => issue as ComicIssue) ?? []} 

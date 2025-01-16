@@ -2,8 +2,8 @@ import type { LoaderFunctionArgs, MetaFunction } from 'react-router-dom';
 import { useLoaderData } from 'react-router';
 
 // import { SimpleLoadingComponent } from '@/components/ui';
-import ComicSeriesDetails from '../components/comics/ComicSeriesDetails';
-import ComicIssuesBox from '../components/comics/ComicIssuesBox';
+import ComicSeriesDetails, { ComicSeriesPageType } from '../components/comics/ComicSeriesDetails';
+import ComicIssuesList from '../components/comics/ComicIssuesList';
 
 import { loadComicSeries } from '@/lib/loader/comicseries.server';
 import { getMetaTags } from '@/lib/seo';
@@ -55,9 +55,9 @@ function ComicSeriesScreen() {
       <ComicSeriesDetails 
         comicseries={comicSeriesData?.comicseries} 
         firstIssue={comicSeriesData?.issues?.[0]}
-        pageType="comicseries" 
+        pageType={ComicSeriesPageType.COMICSERIES_SCREEN} 
       />
-      <ComicIssuesBox 
+      <ComicIssuesList 
         comicseries={comicSeriesData?.comicseries} 
         issues={comicSeriesData?.issues?.filter((issue) => issue !== null)}
       />

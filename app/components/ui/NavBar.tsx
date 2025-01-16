@@ -71,7 +71,7 @@ function Navbar({ isDarkMode, onThemeToggle }: NavbarProps) {
               <input 
                 type="text" 
                 placeholder="Search..." 
-                className="pl-4 pr-20 py-2 border rounded-full w-full" 
+                className="pl-4 pr-20 py-2 border rounded-full text-inkverse-black w-full" 
                 value={searchTerm} 
                 onChange={(e) => setSearchTerm(e.target.value)} 
                 onKeyDown={(e) => {if (e.key === 'Enter') handleSearch()}} 

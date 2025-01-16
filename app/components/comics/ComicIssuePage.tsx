@@ -8,13 +8,13 @@ import { getInkverseUrl, InkverseUrlType } from '@/public/utils';
 import { getStoryImageUrl } from '@/public/comicstory';
 import { getThumbnailImageUrl } from '@/public/comicissue';
 
-interface ComicIssueDetailsProps {
+interface ComicIssuePageProps {
   comicissue: ComicIssue | null | undefined;
   comicseries: ComicSeries | null | undefined;
   allIssues: ComicIssue[] | null | undefined;
 }
 
-function ComicIssueDetails(props: ComicIssueDetailsProps){
+function ComicIssuePage(props: ComicIssuePageProps){
   const { comicissue, comicseries, allIssues } = props;
 
   const comicSeriesLink = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries?.shortUrl });
@@ -48,7 +48,7 @@ function ComicIssueDetails(props: ComicIssueDetailsProps){
   );
 }
 
-const GridOfComicIssues = (props: ComicIssueDetailsProps) => {
+const GridOfComicIssues = (props: ComicIssuePageProps) => {
   const { comicseries, comicissue, allIssues } = props;
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
@@ -208,4 +208,4 @@ const PreviewComicIssue = (props: PreviewComicIssueWrapperProps) => {
 };
 
 
-export default ComicIssueDetails;
+export default ComicIssuePage;
