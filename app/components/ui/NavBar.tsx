@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMatches, useNavigate } from "react-router";
 
 interface NavbarProps {
@@ -9,6 +9,7 @@ interface NavbarProps {
 function Navbar({ isDarkMode, onThemeToggle }: NavbarProps) {
   const ignoreNavRoutes = ["/blog", "/terms-of-service", "/open-source", "/brand-kit"];
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchTypes, setSearchTypes] = useState('comics');
   const [showSearchBox, setShowSearchBox] = useState(false);
 
   const matches = useMatches();
@@ -22,8 +23,18 @@ function Navbar({ isDarkMode, onThemeToggle }: NavbarProps) {
   const isRootRoute = matches.length > 0 && matches[matches.length - 1].pathname === '/';
 
   function handleSearch(e?: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>) {
-    navigate(`/search/${searchTerm}`);
+    navigate(`/search/${searchTerm}/${searchTypes}`);
   }
+
+  useEffect(() => {
+    const handleCloseSearchBox = () => setShowSearchBox(false);
+    window.addEventListener('closeSearchBox', handleCloseSearchBox);
+    
+    // Cleanup listener on component unmount
+    return () => {
+      window.removeEventListener('closeSearchBox', handleCloseSearchBox);
+    };
+  }, []);
 
   return (ignoreNav ? null :
     <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">

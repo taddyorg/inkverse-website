@@ -68,16 +68,20 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
   }
 
   else if (pageType === ComicSeriesPageType.SEARCH) {
+    const link = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries.shortUrl });
+    if (!link) { return <></>; }
     return (
-      <div className="flex flex-col sm:flex-row ">
+      <Link to={link} className="flex flex-row p-6" onClick={() => {
+        window.dispatchEvent(new Event('closeSearchBox'));
+      }}>
         <CoverArt comicseries={comicseries} pageType={pageType} />
-        <div className="sm:w-2/3 sm:pl-4">
+        <div className="w-2/3 pl-4">
           <Name comicseries={comicseries} pageType={pageType}/>
           <div className='flex flex-row justify-between'>
             <Genre comicseries={comicseries} pageType={pageType}/>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }
   

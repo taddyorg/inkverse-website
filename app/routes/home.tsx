@@ -88,7 +88,7 @@ export default function Home() {
 const FeaturedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | null | undefined }) => {
   const firstComicSeries = comicSeries?.[0];
   return (
-    <div>
+    <div className="mb-2 sm:mb-6">
       {firstComicSeries && (
         <ComicSeriesDetails 
           key={firstComicSeries.uuid} 
@@ -104,15 +104,8 @@ const MostRecommendedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] |
   const seeAllUrl = getInkverseUrl({ type: InkverseUrlType.LIST, id: '1', name: 'Most Recommended' });
 
   return (
-    <div>
-      <div className="flex justify-between items-center">
-        <h2 className='text-2xl font-semibold mt-2 mb-4 pr-40'>Most Recommended Comics</h2>
-        {seeAllUrl && (
-          <Link to={seeAllUrl} className="font-semibold">
-            See All
-          </Link>
-        )}
-      </div>
+    <div className="mb-2 sm:mb-6">
+      <h2 className='text-2xl font-semibold mt-2 mb-4'>Most Recommended Comics</h2>
       <div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {comicSeries?.map((series) => (
@@ -124,13 +117,20 @@ const MostRecommendedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] |
           ))}
         </div>
       </div>
+      {seeAllUrl && (
+        <div className="flex justify-center mt-6">
+          <Link to={seeAllUrl} className="font-semibold hover:text-gray-600">
+            See All
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
 
 const CuratedLists = ({ lists }: { lists: List[] | null | undefined }) => {
   return (
-    <div>
+    <div className="mb-2 sm:mb-6">
       <h2 className='text-2xl font-semibold mt-2 mb-4'>Curated Picks by Inkverse</h2>
       <div className="overflow-x-auto">
         <div className="flex gap-4 pb-4">
@@ -155,7 +155,7 @@ const CuratedLists = ({ lists }: { lists: List[] | null | undefined }) => {
 
 const RecentlyUpdatedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | null | undefined }) => {
   return (
-    <div>
+    <div className="mb-2 sm:mb-6">
       <h2 className='text-2xl font-semibold mb-4'>Recently Updated</h2>
       <div className="overflow-x-auto">
         <div className="flex gap-4 pb-4">
