@@ -6,7 +6,7 @@ let client: ApolloClient<any> | null = null;
 
 export function initClient(apolloState: any): ApolloClient<any> {
   client = new ApolloClient({
-    cache: new InMemoryCache({ typePolicies  }).restore(apolloState),
+    cache: new InMemoryCache({ typePolicies }).restore(apolloState),
     link: createHttpLink({
       uri: config.SERVER_URL,
     }),

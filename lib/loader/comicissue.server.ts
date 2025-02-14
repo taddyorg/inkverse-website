@@ -2,6 +2,7 @@ import { type LoaderFunctionArgs } from "react-router";
 import { getApolloClient } from "@/lib/apollo/client.server";
 import { type GetMiniComicSeriesQuery, type GetMiniComicSeriesQueryVariables, GetMiniComicSeries, SortOrder, type GetComicIssueQuery, type GetComicIssueQueryVariables, GetComicIssue, type GetComicSeriesQuery } from "@/shared/graphql/operations";
 import { handleLoaderError } from "./error-handler";
+import type { ApolloQueryResult } from "@apollo/client";
 
 export type ComicIssueLoaderData = {
   comicissue: GetComicIssueQuery['getComicIssue'];
@@ -22,12 +23,12 @@ export async function loadComicIssue({ params, request, context }: LoaderFunctio
     }
   
     // Get comic series data first
-    const getComicSeriesUuid = await client.query<GetMiniComicSeriesQuery, GetMiniComicSeriesQueryVariables>({
+    const getComicSeriesUuid: ApolloQueryResult<GetMiniComicSeriesQuery> = await client.query<GetMiniComicSeriesQuery, GetMiniComicSeriesQueryVariables>({
       query: GetMiniComicSeries,
       variables: { shortUrl },
     });
 
-    if (!getComicSeriesUuid.data?.getComicSeries || !getComicSeriesUuid.data?.getComicSeries.uuid) {
+    if (!getComicSeriesUuid.data?.getComicSeries?.uuid) {
       throw new Response("Not Found", { status: 404 });
     }
 

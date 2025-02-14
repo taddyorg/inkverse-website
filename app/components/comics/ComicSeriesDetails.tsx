@@ -118,7 +118,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
             <Counts comicseries={comicseries} pageType={pageType}/>
           </div>
           <Creators comicseries={comicseries} pageType={pageType}/>
-          <p className='mt-2'>{comicseries?.description}</p>
+          <p className='mt-2'>{comicseries?.description?.trim()}</p>
         </div>
       </div>
       <div className='flex flex-row mt-4 justify-end'>
@@ -250,7 +250,7 @@ const Creators = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
           <img 
             src={getAvatarImageUrl({ avatarImageAsString: creator.avatarImageAsString })} 
             alt={creator.name || undefined} 
-            className='h-10 aspect-1 rounded-sm object-contain object-center mr-2' 
+            className='h-8 aspect-1 rounded-sm object-contain object-center mr-2' 
           />
           <p className='font-semibold'>{creator.name}</p>
           </Link>

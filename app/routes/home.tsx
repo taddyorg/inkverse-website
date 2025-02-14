@@ -71,7 +71,7 @@ export default function Home() {
   const homeScreenData = useLoaderData<typeof loader>();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <main className="flex flex-col gap-4 p-2 md:p-10 lg:p-20 lg:pt-10">
         <FeaturedWebtoons comicSeries={homeScreenData.featuredComicSeries} />
         <MostRecommendedWebtoons comicSeries={homeScreenData.mostPopularComicSeries} />
@@ -119,7 +119,7 @@ const MostRecommendedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] |
       </div>
       {seeAllUrl && (
         <div className="flex justify-center mt-6">
-          <Link to={seeAllUrl} className="font-semibold hover:text-gray-600">
+          <Link to={seeAllUrl} className="font-semibold hover:text-gray-500">
             See All
           </Link>
         </div>
@@ -131,7 +131,7 @@ const MostRecommendedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] |
 const CuratedLists = ({ lists }: { lists: List[] | null | undefined }) => {
   return (
     <div className="mb-2 sm:mb-6">
-      <h2 className='text-2xl font-semibold mt-2 mb-4'>Curated Picks by Inkverse</h2>
+      <h2 className='text-2xl font-semibold mt-2 mb-4'>Picks by Inkverse</h2>
       <div className="overflow-x-auto">
         <div className="flex gap-4 pb-4">
           {lists?.map((list) => {
