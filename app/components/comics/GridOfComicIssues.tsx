@@ -1,54 +1,20 @@
 import { useRef, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { MdChevronLeft, MdChevronRight, MdLock } from 'react-icons/md';
-import { ImageWithLoader } from '../ui';
 
 import type { ComicSeries, ComicIssue } from '@/shared/graphql/operations';
-import { getInkverseUrl, InkverseUrlType } from '@/public/utils';
-import { getStoryImageUrl } from '@/public/comicstory';
-import { getThumbnailImageUrl } from '@/public/comicissue';
+import { ComicIssueDetails } from './ComicIssueDetails';
+import { InkverseUrlType } from '@/public/utils';
+import { getInkverseUrl } from '@/public/utils';
+import { Link } from 'react-router-dom';
+import { getThumbnailImageUrl } from '@/public/comicseries';
 
-interface ComicIssuePageProps {
-  comicissue: ComicIssue | null | undefined;
+interface GridOfComicIssuesProps {
   comicseries: ComicSeries | null | undefined;
+  comicissue: ComicIssue | null | undefined;
   allIssues: ComicIssue[] | null | undefined;
 }
 
-export function ComicIssuePage(props: ComicIssuePageProps){
-  const { comicissue, comicseries, allIssues } = props;
-
-  const comicSeriesLink = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries?.shortUrl });
-  return (
-    <div className='flex flex-col py-4 sm:py-0'>
-      <div className="flex items-center mb-2">
-        {comicSeriesLink && (
-          <Link to={comicSeriesLink} className="flex flex-row mr-2">
-            <MdChevronLeft size={24} />
-            <p className="font-semibold">All Episodes</p>
-          </Link>
-        )}
-      </div>
-      {comicissue?.stories && comicissue.stories.map((story, index) => {
-        const storyImageUrl = getStoryImageUrl({ storyImageAsString: story?.storyImageAsString });
-        if (!storyImageUrl) return null;
-
-        return (
-          <ImageWithLoader
-            key={story?.uuid}
-            className="w-full select-none pointer-events-none"
-            src={storyImageUrl} />
-        )
-      })}
-      <GridOfComicIssues
-        comicseries={comicseries}
-        comicissue={comicissue}
-        allIssues={allIssues}
-      />
-    </div>
-  );
-}
-
-const GridOfComicIssues = (props: ComicIssuePageProps) => {
+export const GridOfComicIssues = (props: GridOfComicIssuesProps) => {
   const { comicseries, comicissue, allIssues } = props;
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
@@ -132,16 +98,20 @@ const GridOfComicIssues = (props: ComicIssuePageProps) => {
       </div>
     </div>
   );
-};
+}; 
 
-type PreviewComicIssueWrapperProps = {
+type PreviewComicIssueProps = {
   comicseries: ComicSeries | null | undefined;
   comicissue: ComicIssue | null | undefined;
   isCurrentIssue: boolean;
 }
 
-const PreviewComicIssueWrapper = (props: PreviewComicIssueWrapperProps) => {
+export const PreviewComicIssueWrapper = (props: PreviewComicIssueProps) => {
   const { comicseries, comicissue, isCurrentIssue } = props;
+  if (!comicseries || !comicissue) {
+    return null;
+  }
+
   const isSkinnyReadingMode = true;
   const wrapperProps = {
     className: `flex-shrink-0 w-1/2 md:w-1/3 ${!isSkinnyReadingMode ? 'lg:w-1/4' : ''} p-2 snap-start`,
@@ -157,7 +127,7 @@ const PreviewComicIssueWrapper = (props: PreviewComicIssueWrapperProps) => {
           isCurrentIssue={isCurrentIssue} />
       </div>
     );
-  }else if (isCurrentIssue) {
+  } else if (isCurrentIssue) {
     return (
       <div {...wrapperProps}>
         <PreviewComicIssue 
@@ -183,7 +153,7 @@ const PreviewComicIssueWrapper = (props: PreviewComicIssueWrapperProps) => {
   );
 };
 
-const PreviewComicIssue = (props: PreviewComicIssueWrapperProps) => {
+const PreviewComicIssue = (props: PreviewComicIssueProps) => {
   const { comicissue, isCurrentIssue } = props;
   const isPatreonExclusive = comicissue?.scopesForExclusiveContent && comicissue?.scopesForExclusiveContent.includes('patreon');
 
