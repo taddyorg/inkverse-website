@@ -6,7 +6,7 @@ interface ImageWithLoaderProps {
   placeholderClassName?: string;
 }
 
-const ImageWithLoader: React.FC<ImageWithLoaderProps> = ({
+export const ImageWithLoader: React.FC<ImageWithLoaderProps> = ({
   src,
   className,
   placeholderClassName = 'flex w-full aspect-1 justify-center items-center'
@@ -46,5 +46,3 @@ const ImageWithLoader: React.FC<ImageWithLoaderProps> = ({
     </div>
   );
 };
-
-export default ImageWithLoader;

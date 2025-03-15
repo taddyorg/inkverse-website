@@ -15,7 +15,7 @@ export enum ComicSeriesPageType {
   MOST_POPULAR = 'MOST_POPULAR',
   COVER = 'COVER',
   SEARCH = 'SEARCH',
-  LIST = 'LIST',
+  LIST_ITEM = 'LIST_ITEM',
 }
 
 type ComicSeriesDetailsProps = {
@@ -86,7 +86,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
   }
   
 
-  else if (pageType === ComicSeriesPageType.LIST) {
+  else if (pageType === ComicSeriesPageType.LIST_ITEM) {
     const link = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries.shortUrl });
     if (!link) { return <></>; }
 
@@ -134,6 +134,8 @@ const Name = ({ comicseries, pageType }: { comicseries: ComicSeries, pageType: C
   switch (pageType) {
     case ComicSeriesPageType.COMICSERIES_SCREEN:
       return <h1 className="mt-4 sm:mt-0 font-bold text-xl">{comicseries.name}</h1>;
+    case ComicSeriesPageType.LIST_ITEM:
+      return <h2 className="font-bold text-xl">{comicseries.name}</h2>;
     default:
       return <h2 className="mt-4 sm:mt-0 font-bold text-xl">{comicseries.name}</h2>;
   }
@@ -166,7 +168,7 @@ const CoverArt = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
         />
     );
     case ComicSeriesPageType.SEARCH:
-    case ComicSeriesPageType.LIST:
+    case ComicSeriesPageType.LIST_ITEM:
       return (
         <img
           src={getThumbnailImageUrl({ thumbnailImageAsString: comicseries.thumbnailImageAsString }) || undefined}
@@ -198,7 +200,7 @@ const Genre = ({ comicseries, pageType }: { comicseries: ComicSeries, pageType: 
   }
 
   return (
-    <p className='mt-2 text-brand-pink font-semibold'>{formatGenresString({ comicseries })}</p>
+    <p className='mt-2 font-semibold'>{formatGenresString({ comicseries })}</p>
   );
 }
 

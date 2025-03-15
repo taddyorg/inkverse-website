@@ -1,6 +1,7 @@
 import { Link, useLoaderData, type LoaderFunctionArgs, type MetaFunction } from "react-router";
 
 import { ComicSeriesDetails, ComicSeriesPageType } from "../components/comics/ComicSeriesDetails";
+import { GetAppButton } from "../components/ui/GetAppButton";
 
 import { getMetaTags } from "@/lib/seo";
 import { loadHomeScreen } from "@/lib/loader/home.server";
@@ -26,9 +27,10 @@ const footerNavigation = {
     { name: 'Blog', href: '/blog', type: 'internal' },
     { name: 'Terms', href: '/terms-of-service', type: 'internal' },
     { name: 'Privacy', href: '/terms-of-service/privacy-policy', type: 'internal' },
+    { name: 'Open Source', href: '/open-source', type: 'internal' },
     { name: 'Product Roadmap', href: 'https://inkverse.canny.io', type: 'external' },
     { name: 'Download Mobile App', href: '/download-app', type: 'internal', additionalStyling: 'pb-2' },
-    { name: 'Publish your Webtoon on Inkverse', href: 'https://taddy.org/upload-on-taddy?ref=inkverse.co', type: 'external', buttonStyling: 'bg-red-500 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-800 text-white font-semibold px-6 py-3 rounded-full' },
+    { name: 'Publish on Inkverse', href: 'https://taddy.org/upload-on-taddy?ref=inkverse.co', type: 'external', buttonStyling: 'bg-red-500 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-800 text-white font-semibold px-6 py-3 rounded-full' },
   ],
   social: [
     {
@@ -80,6 +82,7 @@ export default function Home() {
         <RecentlyAddedWebtoons comicSeries={homeScreenData.recentlyAddedComicSeries} />
       </main>
       <Footer />
+      <GetAppButton />
     </div>
   );
 }
@@ -201,7 +204,7 @@ const RecentlyAddedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | n
 
 const Footer = () => {
   return (
-    <footer aria-labelledby="footer-heading" className="flex flex-col gap-4 px-2 md:px-10 lg:px-20">
+    <footer aria-labelledby="footer-heading" className="flex flex-col gap-4 px-2 md:px-10 lg:px-20 mb-16 md:mb-4">
       <h2 id="footer-heading" className="sr-only"> Footer </h2>
       <div>
         <div>

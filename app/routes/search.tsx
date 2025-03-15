@@ -1,12 +1,12 @@
 import type { LoaderFunctionArgs, MetaFunction } from 'react-router-dom';
 import { useLoaderData } from 'react-router';
 
-// import { SimpleLoadingComponent } from '@/components/ui';
-import { ComicSeriesDetails, ComicSeriesPageType } from '../components/comics/ComicSeriesDetails';
+import { ComicSeriesDetails, ComicSeriesPageType } from '@/app/components/comics/ComicSeriesDetails';
 
 import { loadSearch } from '@/lib/loader/search.server';
 import { getMetaTags } from '@/lib/seo';
 import { getInkverseUrl, InkverseUrlType, inkverseWebsiteUrl } from '@/public/utils';
+import type { ComicSeries } from '@/shared/graphql/types';
 
 export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
   if (!data) { return []; }
@@ -53,7 +53,7 @@ function SearchScreen() {
   
   return (
     <div className="max-w-3xl mx-auto sm:p-6 lg:p-8">
-      {searchData?.search?.comicSeries?.filter(comicseries => comicseries !== null).map((comicseries) => (
+      {searchData?.search?.comicSeries?.filter((comicseries: any) => comicseries !== null).map((comicseries: any) => comicseries as ComicSeries).map((comicseries: ComicSeries) => (
         <ComicSeriesDetails 
           key={comicseries.uuid}
           comicseries={comicseries} 

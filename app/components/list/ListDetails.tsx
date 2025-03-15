@@ -24,7 +24,7 @@ export function ListDetails({ list, pageType }: ListDetailsProps) {
             key={comicSeries.uuid}
             comicseries={comicSeries} 
             index={index + 1}
-            pageType={ComicSeriesPageType.LIST} 
+            pageType={ComicSeriesPageType.LIST_ITEM} 
           />
         ))}
       </div>

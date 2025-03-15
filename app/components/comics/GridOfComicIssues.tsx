@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from 'react';
 import { MdChevronLeft, MdChevronRight, MdLock } from 'react-icons/md';
 
 import type { ComicSeries, ComicIssue } from '@/shared/graphql/operations';
-import { ComicIssueDetails } from './ComicIssueDetails';
 import { InkverseUrlType } from '@/public/utils';
 import { getInkverseUrl } from '@/public/utils';
 import { Link } from 'react-router-dom';

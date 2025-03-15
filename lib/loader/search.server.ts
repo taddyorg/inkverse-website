@@ -4,15 +4,15 @@ import { type SearchQuery, Search, type SearchQueryVariables, type GetListQuery 
 import { handleLoaderError } from "./error-handler";
 
 export type SearchLoaderData = {
-  search: SearchQuery['searchForTerm'];
-  comicseries: NonNullable<SearchQuery['searchForTerm']>['comicSeries'];
+  search: SearchQuery['search'];
+  comicseries: NonNullable<SearchQuery['search']>['comicSeries'];
   apolloState: Record<string, any>;
 };
 
 function prettyTypeToInkverseType(type: string): string {
   switch (type) {
     case 'comics': 
-      return 'comicseries'.toUpperCase();
+      return 'COMICSERIES';
     default: 
       return type.toUpperCase();
   }

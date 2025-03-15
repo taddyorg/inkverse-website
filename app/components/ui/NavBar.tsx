@@ -6,7 +6,7 @@ interface NavbarProps {
   onThemeToggle: () => void;
 }
 
-function Navbar({ isDarkMode, onThemeToggle }: NavbarProps) {
+export function Navbar({ isDarkMode, onThemeToggle }: NavbarProps) {
   const ignoreNavRoutes = ["/blog", "/terms-of-service", "/open-source", "/brand-kit"];
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTypes, setSearchTypes] = useState('comics');
