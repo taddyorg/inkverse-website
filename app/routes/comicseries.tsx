@@ -60,6 +60,7 @@ function ComicSeriesScreen() {
       <ComicIssuesList 
         comicseries={comicSeriesData?.comicseries} 
         issues={comicSeriesData?.issues?.filter((issue) => issue !== null)}
+        currentIssueUuid={comicSeriesData?.issues?.[0]?.uuid}
       />
     </div>
   );

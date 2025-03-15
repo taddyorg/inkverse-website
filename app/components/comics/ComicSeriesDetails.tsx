@@ -122,7 +122,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
         </div>
       </div>
       <div className='flex flex-row mt-4 justify-end'>
-        <ReadFirstIssueButton comicseries={comicseries} firstIssue={firstIssue} />
+        {/* <ReadFirstIssueButton comicseries={comicseries} firstIssue={firstIssue} /> */}
         {/* <RecommendButton /> */}
         {/* <SaveButton /> */}
       </div>

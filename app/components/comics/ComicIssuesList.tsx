@@ -5,10 +5,11 @@ import type { ComicSeries, ComicIssue } from '@/shared/graphql/types';
 type ComicIssuesBoxProps = {
   comicseries: ComicSeries | null | undefined;
   issues: ComicIssue[] | null | undefined;
+  currentIssueUuid: string | undefined;
 }
   
 export function ComicIssuesList(props: ComicIssuesBoxProps) {
-  const { comicseries, issues } = props;
+  const { comicseries, issues, currentIssueUuid } = props;
 
   if (!comicseries || !issues) {
     return <></>;
@@ -23,6 +24,7 @@ export function ComicIssuesList(props: ComicIssuesBoxProps) {
           comicseries={comicseries}
           comicissue={comicissue}
           position={comicissue.position || 0}
+          isCurrentIssue={comicissue.uuid === currentIssueUuid}
         />
       ))}
     </Section>

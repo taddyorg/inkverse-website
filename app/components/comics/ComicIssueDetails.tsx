@@ -10,9 +10,10 @@ type ComicIssueDetailsProps = {
   comicseries: ComicSeries,
   comicissue: ComicIssue,
   position: number,
+  isCurrentIssue?: boolean,
 };
 
-export const ComicIssueDetails = ({ comicseries, comicissue, position }: ComicIssueDetailsProps) => {
+export const ComicIssueDetails = ({ comicseries, comicissue, position, isCurrentIssue }: ComicIssueDetailsProps) => {
   const freeInDaysText = prettyFormattedFreeInDays(comicissue.dateExclusiveContentAvailable || undefined);
   const isPatreonExclusive = comicissue.scopesForExclusiveContent && comicissue.scopesForExclusiveContent.includes('patreon');
 
@@ -35,7 +36,7 @@ export const ComicIssueDetails = ({ comicseries, comicissue, position }: ComicIs
 
   if (isPatreonExclusive) {
     return (
-      <ComicIssueDetailsWrapper comicissue={comicissue} position={position} isPatreonExclusive={true}>
+      <ComicIssueDetailsWrapper comicissue={comicissue} position={position} isPatreonExclusive={true} isCurrentIssue={isCurrentIssue}>
         <div className="text-sm">
           {dateAndFreeContent}
           <p className="font-bold mt-1 text-brand-pink">
@@ -48,7 +49,7 @@ export const ComicIssueDetails = ({ comicseries, comicissue, position }: ComicIs
 
   return (
     <Link to={linkToComicIssue} className="block">
-      <ComicIssueDetailsWrapper comicissue={comicissue} position={position}>
+      <ComicIssueDetailsWrapper comicissue={comicissue} position={position} isCurrentIssue={isCurrentIssue}>
         {dateAndFreeContent}
       </ComicIssueDetailsWrapper>
     </Link>
@@ -59,18 +60,20 @@ type ComicIssueDetailsWrapperProps = {
   children?: React.ReactNode,
   comicissue: ComicIssue, 
   position: number,
-  isPatreonExclusive?: boolean 
+  isPatreonExclusive?: boolean,
+  isCurrentIssue?: boolean,
 }
 
 const ComicIssueDetailsWrapper = ({ 
   children, 
   comicissue, 
   position, 
-  isPatreonExclusive 
+  isPatreonExclusive,
+  isCurrentIssue,
 }: ComicIssueDetailsWrapperProps) => (
-  <div className="flex justify-between items-center h-16 pr-4 mb-2">
-    <div className="flex items-center">
-      <div className={`w-16 h-16 mr-4 ${isPatreonExclusive ? 'relative' : ''}`}>
+  <div className={`flex justify-between items-center ${isCurrentIssue ? 'bg-brand-pink dark:bg-taddy-blue rounded-2xl py-2 mb-2' : 'h-16 mb-2'}`}>
+    <div className="flex items-center pl-4">
+      <div className="w-16 h-16 mr-4 relative">
         <img 
           src={getThumbnailImageUrl({ thumbnailImageAsString: comicissue.thumbnailImageAsString })} 
           alt={comicissue.name || ''}
@@ -83,10 +86,12 @@ const ComicIssueDetailsWrapper = ({
         )}
       </div>
       <div className="flex flex-col">
-        <h2 className="text-base font-normal m-0">{comicissue.name}</h2>
-        {children}
+        <h2 className={`text-base font-normal m-0 ${isCurrentIssue ? 'text-white' : ''}`}>{comicissue.name}</h2>
+        <div className={isCurrentIssue ? 'text-white' : ''}>
+          {children}
+        </div>
       </div>
     </div>
-    <span className="text-base">#{position + 1}</span>
+    <span className={`text-base pr-4 ${isCurrentIssue ? 'text-white font-bold' : ''}`}>#{position + 1}</span>
   </div>
 );
