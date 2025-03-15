@@ -43,7 +43,7 @@ export default function ComicIssue() {
             </Link>
           )}
         </div>
-        {comicissue?.stories && comicissue.stories.map((story) => {
+        {comicissue?.stories && comicissue.stories.map((story, index) => {
           const storyImageUrl = getStoryImageUrl({ storyImageAsString: story?.storyImageAsString });
           if (!storyImageUrl) return null;
 
@@ -51,7 +51,9 @@ export default function ComicIssue() {
             <ImageWithLoader
               key={story?.uuid}
               className="w-full select-none pointer-events-none"
-              src={storyImageUrl} />
+              src={storyImageUrl}
+              priority={index < 2 ? 'high' : 'auto'}
+            />
           )
         })}
         <GridOfComicIssues

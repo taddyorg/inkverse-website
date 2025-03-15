@@ -4,12 +4,14 @@ interface ImageWithLoaderProps {
   src: string;
   className?: string;
   placeholderClassName?: string;
+  priority?: 'high' | 'low' | 'auto';
 }
 
 export const ImageWithLoader: React.FC<ImageWithLoaderProps> = ({
   src,
   className,
-  placeholderClassName = 'flex w-full aspect-1 justify-center items-center'
+  placeholderClassName = 'flex w-full aspect-1 justify-center items-center',
+  priority = 'auto'
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -42,6 +44,7 @@ export const ImageWithLoader: React.FC<ImageWithLoaderProps> = ({
         ref={imageRef}
         src={src}
         onLoad={onLoaded}
+        fetchPriority={priority}
       />
     </div>
   );
