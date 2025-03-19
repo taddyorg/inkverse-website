@@ -7,7 +7,7 @@ import { ComicIssuesList } from '../components/comics/ComicIssuesList';
 
 import { loadComicSeries } from '@/lib/loader/comicseries.server';
 import { getMetaTags } from '@/lib/seo';
-import { getInkverseUrl, InkverseUrlType, inkverseWebsiteUrl } from '@/public/utils';
+import { getInkverseUrl, inkverseWebsiteUrl } from '@/public/utils';
 import { getBannerImageUrl } from '@/public/comicseries';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -16,7 +16,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTags(
     data.comicseries.name, 
     data.comicseries.description,
-    `${inkverseWebsiteUrl}${getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: data.comicseries.shortUrl })}`,
+    `${inkverseWebsiteUrl}${getInkverseUrl({ type: "comicseries", shortUrl: data.comicseries.shortUrl })}`,
     getBannerImageUrl({ bannerImageAsString: data.comicseries.bannerImageAsString }),
   );
 };

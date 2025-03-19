@@ -7,7 +7,7 @@ import { CreatorComics } from '../components/creator/CreatorComics';
 
 import { loadCreator } from '@/lib/loader/creator.server';
 import { getMetaTags } from '@/lib/seo';
-import { getInkverseUrl, InkverseUrlType, inkverseWebsiteUrl } from '@/public/utils';
+import { getInkverseUrl, inkverseWebsiteUrl } from '@/public/utils';
 import { getAvatarImageUrl } from '@/public/creator';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -16,7 +16,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTags(
     data.creator.name, 
     data.creator.bio,
-    `${inkverseWebsiteUrl}${getInkverseUrl({ type: InkverseUrlType.CREATOR, shortUrl: data.creator.shortUrl })}`,
+    `${inkverseWebsiteUrl}${getInkverseUrl({ type: "creator", shortUrl: data.creator.shortUrl })}`,
     getAvatarImageUrl({ avatarImageAsString: data.creator.avatarImageAsString }),
   );
 };

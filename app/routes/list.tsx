@@ -6,7 +6,7 @@ import { ListDetails, ListPageType } from '../components/list/ListDetails';
 
 import { loadList } from '@/lib/loader/list.server';
 import { getMetaTags } from '@/lib/seo';
-import { getInkverseUrl, InkverseUrlType, inkverseWebsiteUrl } from '@/public/utils';
+import { getInkverseUrl, inkverseWebsiteUrl } from '@/public/utils';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) { return []; }
@@ -14,7 +14,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTags(
     data.list.name, 
     data.list.description,
-    `${inkverseWebsiteUrl}${getInkverseUrl({ type: InkverseUrlType.LIST, id: data.list.id, name: data.list.name })}`,
+    `${inkverseWebsiteUrl}${getInkverseUrl({ type: "list", id: data.list.id, name: data.list.name })}`,
     data.list.bannerImageUrl,
   );
 };

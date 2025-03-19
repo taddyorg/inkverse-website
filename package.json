@@ -3,6 +3,11 @@
   "private": true,
   "type": "module",
   "license": "AGPL-3.0",
+  "workspaces": [
+    ".",
+    "public",
+    "shared"
+  ],
   "scripts": {
     "build": "cross-env NODE_ENV=production react-router build",
     "dev": "react-router dev",

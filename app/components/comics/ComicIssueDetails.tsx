@@ -3,7 +3,7 @@ import { MdLock } from 'react-icons/md';
 
 import { prettyFormattedDate, prettyFormattedFreeInDays } from '@/shared/utils/date';
 import { getThumbnailImageUrl } from '@/public/comicseries';
-import { getInkverseUrl, InkverseUrlType } from '@/public/utils';
+import { getInkverseUrl } from '@/public/utils';
 import type { ComicSeries, ComicIssue } from '@/shared/graphql/types';
 
 type ComicIssueDetailsProps = {
@@ -29,7 +29,7 @@ export const ComicIssueDetails = ({ comicseries, comicissue, position, isCurrent
     </div>
   );
 
-  const linkToComicIssue = getInkverseUrl({ type: InkverseUrlType.COMICISSUE, shortUrl: comicseries.shortUrl, name: comicissue.name, uuid: comicissue.uuid });
+  const linkToComicIssue = getInkverseUrl({ type: "comicissue", shortUrl: comicseries.shortUrl, name: comicissue.name, uuid: comicissue.uuid });
   if (!linkToComicIssue) {
     return <></>;
   }

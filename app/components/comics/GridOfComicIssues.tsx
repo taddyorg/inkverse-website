@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from 'react';
 import { MdChevronLeft, MdChevronRight, MdLock } from 'react-icons/md';
 
 import type { ComicSeries, ComicIssue } from '@/shared/graphql/operations';
-import { InkverseUrlType } from '@/public/utils';
 import { getInkverseUrl } from '@/public/utils';
 import { Link } from 'react-router-dom';
 import { getThumbnailImageUrl } from '@/public/comicseries';
@@ -138,7 +137,7 @@ export const PreviewComicIssueWrapper = (props: PreviewComicIssueProps) => {
     );
   }
 
-  const comicIssueLink = getInkverseUrl({ type: InkverseUrlType.COMICISSUE, shortUrl: comicseries?.shortUrl, name: comicissue?.name, uuid: comicissue?.uuid });
+  const comicIssueLink = getInkverseUrl({ type: "comicissue", shortUrl: comicseries?.shortUrl, name: comicissue?.name, uuid: comicissue?.uuid });
   if (!comicIssueLink) return null;
 
   return (

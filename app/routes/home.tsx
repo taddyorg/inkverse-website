@@ -7,7 +7,6 @@ import { getMetaTags } from "@/lib/seo";
 import { loadHomeScreen } from "@/lib/loader/home.server";
 import type { ComicSeries, List } from "@/shared/graphql/types";
 import { getInkverseUrl } from "@/public/utils";
-import { InkverseUrlType } from "@/public/utils";
 
 const MainCopy = {
   title: "Discover the best webtoons!",
@@ -104,7 +103,7 @@ const FeaturedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | null |
 }
 
 const MostRecommendedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | null | undefined }) => {
-  const seeAllUrl = getInkverseUrl({ type: InkverseUrlType.LIST, id: '1', name: 'Most Recommended' });
+  const seeAllUrl = getInkverseUrl({ type: "list", id: '1', name: 'Most Recommended' });
 
   return (
     <div className="mb-2 sm:mb-6">
@@ -138,7 +137,7 @@ const CuratedLists = ({ lists }: { lists: List[] | null | undefined }) => {
       <div className="overflow-x-auto">
         <div className="flex gap-4 pb-4">
           {lists?.map((list) => {
-            const url = getInkverseUrl({ type: InkverseUrlType.LIST, id: list.id, name: list.name })
+            const url = getInkverseUrl({ type: "list", id: list.id, name: list.name })
             if (!url) return null;
             return (
               <Link key={list.id} to={url} className="flex-none w-[80vw] md:w-[60vw]">

@@ -4,9 +4,9 @@ import { FaPlay } from "react-icons/fa";
 import { Section } from '../ui';
 
 import type { ComicIssue, ComicSeries } from '@/shared/graphql/types';
-import { getInkverseUrl, InkverseUrlType } from '@/public/utils';
+import { getInkverseUrl } from '@/public/utils';
 import { getPrettyGenre } from '@/public/genres';
-import { ComicSeriesImageVariant, getBannerImageUrl, getCoverImageUrl, getThumbnailImageUrl } from '@/public/comicseries';
+import { getBannerImageUrl, getCoverImageUrl, getThumbnailImageUrl } from '@/public/comicseries';
 import { getAvatarImageUrl } from '@/public/creator';
 
 export enum ComicSeriesPageType {
@@ -31,7 +31,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
   if (!comicseries) { return <></>; }
 
   if (pageType === ComicSeriesPageType.MOST_POPULAR) {
-      const link = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries.shortUrl });
+      const link = getInkverseUrl({ type: "comicseries", shortUrl: comicseries.shortUrl });
       if (!link) { return <></>; }
 
       return (
@@ -46,7 +46,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
   }
 
   else if (pageType === ComicSeriesPageType.FEATURED_BANNER) {
-      const link = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries.shortUrl });
+      const link = getInkverseUrl({ type: "comicseries", shortUrl: comicseries.shortUrl });
       if (!link) { return <></>; }
 
       return (
@@ -57,7 +57,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
   }
 
   else if (pageType === ComicSeriesPageType.COVER) {
-    const link = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries.shortUrl });
+    const link = getInkverseUrl({ type: "comicseries", shortUrl: comicseries.shortUrl });
     if (!link) { return <></>; }
 
       return (
@@ -68,7 +68,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
   }
 
   else if (pageType === ComicSeriesPageType.SEARCH) {
-    const link = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries.shortUrl });
+    const link = getInkverseUrl({ type: "comicseries", shortUrl: comicseries.shortUrl });
     if (!link) { return <></>; }
     return (
       <Link to={link} className="flex flex-row p-6" onClick={() => {
@@ -87,7 +87,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
   
 
   else if (pageType === ComicSeriesPageType.LIST_ITEM) {
-    const link = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries.shortUrl });
+    const link = getInkverseUrl({ type: "comicseries", shortUrl: comicseries.shortUrl });
     if (!link) { return <></>; }
 
     return (
@@ -146,7 +146,7 @@ const CoverArt = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
     case ComicSeriesPageType.FEATURED_BANNER:
       return (
         <img
-          src={getBannerImageUrl({ bannerImageAsString: comicseries.bannerImageAsString, variant: ComicSeriesImageVariant.LARGE }) || undefined}
+          src={getBannerImageUrl({ bannerImageAsString: comicseries.bannerImageAsString, variant: "large" }) || undefined}
           alt={`${comicseries.name} banner art`}
           className="w-full aspect-[16/9] max-h-[470px] rounded-lg object-cover object-center"
         />
@@ -156,7 +156,7 @@ const CoverArt = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
         <img
           src={getThumbnailImageUrl({ thumbnailImageAsString: comicseries.thumbnailImageAsString }) || undefined}
           alt={`${comicseries.name} thumbnail art`}
-          className="h-32 aspect-1 rounded-sm object-contain object-center mr-2"
+          className="h-32 aspect-1 rounded-md object-contain object-center mr-2"
         />
     );
     case ComicSeriesPageType.COVER:
@@ -164,7 +164,7 @@ const CoverArt = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
         <img
           src={getCoverImageUrl({ coverImageAsString: comicseries.coverImageAsString }) || undefined}
           alt={`${comicseries.name} comic cover art`}
-          className="h-40 sm:h-60 aspect-4/6 rounded-sm object-contain object-center mr-2"
+          className="h-60 aspect-4/6 rounded-md object-contain object-center mr-2"
         />
     );
     case ComicSeriesPageType.SEARCH:
@@ -173,7 +173,7 @@ const CoverArt = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
         <img
           src={getThumbnailImageUrl({ thumbnailImageAsString: comicseries.thumbnailImageAsString }) || undefined}
           alt={`${comicseries.name} thumbnail art`}
-          className="h-20 aspect-1 rounded-sm object-contain object-center mr-2"
+          className="h-20 aspect-1 rounded-md object-contain object-center mr-2"
         />
     );
     default:
@@ -181,7 +181,7 @@ const CoverArt = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
         <img
           src={getCoverImageUrl({ coverImageAsString: comicseries.coverImageAsString }) || undefined}
           alt={`${comicseries.name} comic cover art`}
-          className="h-90 sm:h-60 aspect-4/6 rounded-sm object-contain object-center mr-2"
+          className="h-90 sm:h-60 aspect-4/6 rounded-lg object-contain object-center mr-2"
         />
       );
   }
@@ -241,7 +241,7 @@ const Creators = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
   return (
     <div className='mt-2 flex flex-row gap-2'>
       {creators.map((creator) => {
-        const link = getInkverseUrl({ type: InkverseUrlType.CREATOR, shortUrl: creator.shortUrl });
+        const link = getInkverseUrl({ type: "creator", shortUrl: creator.shortUrl });
         if (!link) { return <></> }
         return (
           <Link 
@@ -292,7 +292,7 @@ const Creators = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
 
 const ReadFirstIssueButton = ({ comicseries, firstIssue }: { comicseries: ComicSeries, firstIssue: ComicIssue | null | undefined }) => {
   if (!firstIssue) { return <></>; }
-  const link = getInkverseUrl({ type: InkverseUrlType.COMICISSUE, shortUrl: comicseries.shortUrl, name: firstIssue.name, uuid: firstIssue.uuid });
+  const link = getInkverseUrl({ type: "comicissue", shortUrl: comicseries.shortUrl, name: firstIssue.name, uuid: firstIssue.uuid });
   if (!link) { return <></>; }
   
   return (

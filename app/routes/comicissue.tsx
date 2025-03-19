@@ -7,7 +7,7 @@ import { GridOfComicIssues } from "../components/comics/GridOfComicIssues";
 
 import { getMetaTags } from "@/lib/seo";
 import { loadComicIssue } from "@/lib/loader/comicissue.server";
-import { inkverseWebsiteUrl, getInkverseUrl, InkverseUrlType } from "@/public/utils";
+import { inkverseWebsiteUrl, getInkverseUrl } from "@/public/utils";
 import type { ComicIssue } from '@/shared/graphql/operations';
 import { getBannerImageUrl } from "@/public/comicissue";
 import { getStoryImageUrl } from "@/public/comicstory";
@@ -18,7 +18,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTags(
     data.comicissue.name, 
     data.comicissue.creatorNote,
-    `${inkverseWebsiteUrl}${getInkverseUrl({ type: InkverseUrlType.COMICISSUE, shortUrl: data.comicseries?.shortUrl, name: data.comicissue.name, uuid: data.comicissue.uuid })}`,
+    `${inkverseWebsiteUrl}${getInkverseUrl({ type: "comicissue", shortUrl: data.comicseries?.shortUrl, name: data.comicissue.name, uuid: data.comicissue.uuid })}`,
     getBannerImageUrl({ bannerImageAsString: data.comicissue.bannerImageAsString }),
   );
 };
@@ -30,7 +30,7 @@ export const loader = async ({ params, request, context }: LoaderFunctionArgs) =
 export default function ComicIssue() {
   const { comicissue, comicseries, allIssues } = useLoaderData<typeof loader>();
   const isSkinnyReadingMode = true;
-  const comicSeriesLink = getInkverseUrl({ type: InkverseUrlType.COMICSERIES, shortUrl: comicseries?.shortUrl });
+  const comicSeriesLink = getInkverseUrl({ type: "comicseries", shortUrl: comicseries?.shortUrl });
 
   return (
     <div className={`mx-auto sm:p-6 lg:p-8 ${isSkinnyReadingMode ? 'max-w-xl' : 'max-w-3xl'}`}>

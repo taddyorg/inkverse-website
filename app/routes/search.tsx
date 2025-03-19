@@ -5,7 +5,7 @@ import { ComicSeriesDetails, ComicSeriesPageType } from '@/app/components/comics
 
 import { loadSearch } from '@/lib/loader/search.server';
 import { getMetaTags } from '@/lib/seo';
-import { getInkverseUrl, InkverseUrlType, inkverseWebsiteUrl } from '@/public/utils';
+import { getInkverseUrl, inkverseWebsiteUrl } from '@/public/utils';
 import type { ComicSeries } from '@/shared/graphql/types';
 
 export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
@@ -18,7 +18,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
   return getMetaTags(
     `Search for ${searchTypes.split(',').join('& ')} with '${searchTerm}'`,
     `Search for comics, creators, lists, and more on Inkverse.`,
-    `${inkverseWebsiteUrl}${getInkverseUrl({ type: InkverseUrlType.SEARCH, term: searchTerm, types: searchTypes.split(',') })}`,
+    `${inkverseWebsiteUrl}${getInkverseUrl({ type: "search", term: searchTerm, types: searchTypes.split(',') })}`,
   );
 };
 
