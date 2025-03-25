@@ -7,6 +7,8 @@ import { getMetaTags } from "@/lib/seo";
 import { loadHomeScreen } from "@/lib/loader/home.server";
 import type { ComicSeries, List } from "@/shared/graphql/types";
 import { getInkverseUrl } from "@/public/utils";
+import type { NewsItem } from "@/public/news-items";
+import { inkverseNewsItems } from "@/public/news-items";
 
 const MainCopy = {
   title: "Discover the best webtoons!",
@@ -77,6 +79,7 @@ export default function Home() {
         <FeaturedWebtoons comicSeries={homeScreenData.featuredComicSeries} />
         <MostRecommendedWebtoons comicSeries={homeScreenData.mostPopularComicSeries} />
         <CuratedLists lists={homeScreenData.curatedLists} />
+        <Announcements newsItems={inkverseNewsItems} />
         <RecentlyUpdatedWebtoons comicSeries={homeScreenData.recentlyUpdatedComicSeries} />
         <RecentlyAddedWebtoons comicSeries={homeScreenData.recentlyAddedComicSeries} />
       </main>
@@ -149,6 +152,28 @@ const CuratedLists = ({ lists }: { lists: List[] | null | undefined }) => {
               </Link>
             )
           })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const Announcements = ({ newsItems }: { newsItems: NewsItem[] | null | undefined }) => {
+  return (
+    <div className="mb-2 sm:mb-6">
+      <h2 className='text-2xl font-semibold mt-2 mb-4'>Inkverse News</h2>
+      <div className="overflow-x-auto">
+        <div className="flex gap-4 pb-4">
+          {newsItems?.map((item, index) => (
+            <a 
+              key={item.url}
+              href={item.url}
+              target="_blank"
+              className="flex-none w-[280px] p-4 bg-white rounded-lg shadow-sm border border-gray-100 dark:bg-gray-800 dark:border-gray-700"
+            >
+              <p className="font-semibold text-gray-800 dark:text-gray-200">{item.title}</p>
+            </a>
+          ))}
         </div>
       </div>
     </div>
