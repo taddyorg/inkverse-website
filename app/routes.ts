@@ -10,6 +10,7 @@ export default [
     route("comics/:shortUrl/:episodeId", "routes/comicissue.tsx"),
     route("creators/:shortUrl", "routes/creator.tsx"),
     route("lists/:id", "routes/list.tsx"),
+    route("tagged/:tag", "routes/tag.tsx"),
     route("search/:term/:types?", "routes/search.tsx"),
     route("api/theme", "routes/api.theme.ts"),
     route("download-app", "routes/download-app.tsx"),

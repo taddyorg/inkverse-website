@@ -15,7 +15,7 @@ import { getTheme } from "@/lib/action/theme";
 
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
-import { getClient } from "@/lib/apollo/client.client";
+import { getApolloClient } from "@/lib/apollo/client.client";
 import { Navbar } from './components/ui';
 
 import 'react-notion-x/src/styles.css'
@@ -53,7 +53,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Handle Apollo state restoration
     if ((currentRouteData as any)?.apolloState) {
-      const client = getClient();
+      const client = getApolloClient();
       if (client) {
         client.restore((currentRouteData as any).apolloState);
       }

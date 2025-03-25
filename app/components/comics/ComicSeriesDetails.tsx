@@ -3,7 +3,7 @@ import { FaPlay } from "react-icons/fa";
 
 import { Section } from '../ui';
 
-import type { ComicIssue, ComicSeries } from '@/shared/graphql/types';
+import type { ComicSeries } from '@/shared/graphql/types';
 import { getInkverseUrl } from '@/public/utils';
 import { getPrettyGenre } from '@/public/genres';
 import { getBannerImageUrl, getCoverImageUrl, getThumbnailImageUrl } from '@/public/comicseries';
@@ -21,12 +21,11 @@ export enum ComicSeriesPageType {
 type ComicSeriesDetailsProps = {
   comicseries: ComicSeries | null | undefined;
   pageType: ComicSeriesPageType;
-  firstIssue?: ComicIssue | null | undefined;
   index?: number;
 }
 
 export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
-  const { comicseries, firstIssue, pageType } = props;
+  const { comicseries, pageType } = props;
 
   if (!comicseries) { return <></>; }
 
@@ -119,12 +118,8 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
           </div>
           <Creators comicseries={comicseries} pageType={pageType}/>
           <p className='mt-2'>{comicseries?.description?.trim()}</p>
+          <Tags comicseries={comicseries} pageType={pageType}/>
         </div>
-      </div>
-      <div className='flex flex-row mt-4 justify-end'>
-        {/* <ReadFirstIssueButton comicseries={comicseries} firstIssue={firstIssue} /> */}
-        {/* <RecommendButton /> */}
-        {/* <SaveButton /> */}
       </div>
     </Section>
   );
@@ -201,6 +196,28 @@ const Genre = ({ comicseries, pageType }: { comicseries: ComicSeries, pageType: 
 
   return (
     <p className='mt-2 font-semibold'>{formatGenresString({ comicseries })}</p>
+  );
+}
+
+const Tags = ({ comicseries, pageType }: { comicseries: ComicSeries, pageType: ComicSeriesPageType }) => {
+  if (pageType !== ComicSeriesPageType.COMICSERIES_SCREEN || !comicseries.tags || comicseries.tags.length === 0) {
+    return <></>;
+  }
+
+  return (
+    <div className='mt-2 flex flex-row flex-wrap gap-2'>
+      {comicseries.tags.map((tag) => (
+        tag && (
+          <Link
+            key={tag.toLowerCase()}
+            to={getInkverseUrl({ type: "tag", name: tag.toLowerCase() }) || ''}
+            className='px-3 py-1 rounded-full text-sm bg-brand-pink bg-opacity-20 transition-colors hover:bg-opacity-30 cursor-pointer dark:bg-taddy-blue dark:bg-opacity-20 dark:hover:bg-opacity-30'
+          >
+            <span>{tag.toLowerCase()}</span>
+          </Link>
+        )
+      ))}
+    </div>
   );
 }
 
@@ -289,19 +306,3 @@ const Creators = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
 //         </a>
 //     );
 // };
-
-const ReadFirstIssueButton = ({ comicseries, firstIssue }: { comicseries: ComicSeries, firstIssue: ComicIssue | null | undefined }) => {
-  if (!firstIssue) { return <></>; }
-  const link = getInkverseUrl({ type: "comicissue", shortUrl: comicseries.shortUrl, name: firstIssue.name, uuid: firstIssue.uuid });
-  if (!link) { return <></>; }
-  
-  return (
-    <Link 
-      to={link} 
-      className='flex items-center justify-center px-4 py-2 mr-2 rounded-full text-sm font-bold transition-colors duration-150 text-white bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700'
-    >
-      <FaPlay className="mr-2" size={12} />
-      <span>Read Ep 1</span>
-    </Link>
-  );
-}

@@ -4,6 +4,8 @@ import { useLoaderData } from 'react-router';
 // import { SimpleLoadingComponent } from '@/components/ui';
 import { ComicSeriesDetails, ComicSeriesPageType } from '../components/comics/ComicSeriesDetails';
 import { ComicIssuesList } from '../components/comics/ComicIssuesList';
+import { ComicSeriesInfo } from '../components/comics/ComicSeriesInfo';
+import { ReadNextEpisode } from '../components/comics/ReadNextEpisode';
 
 import { loadComicSeries } from '@/lib/loader/comicseries.server';
 import { getMetaTags } from '@/lib/seo';
@@ -54,7 +56,6 @@ function ComicSeriesScreen() {
     <div className="max-w-3xl mx-auto sm:p-6 lg:p-8">
       <ComicSeriesDetails 
         comicseries={comicSeriesData?.comicseries} 
-        firstIssue={comicSeriesData?.issues?.[0]}
         pageType={ComicSeriesPageType.COMICSERIES_SCREEN} 
       />
       <ComicIssuesList 
@@ -62,6 +63,17 @@ function ComicSeriesScreen() {
         issues={comicSeriesData?.issues?.filter((issue) => issue !== null)}
         currentIssueUuid={comicSeriesData?.issues?.[0]?.uuid}
       />
+      {comicSeriesData?.comicseries && (
+        <ComicSeriesInfo comicseries={comicSeriesData.comicseries} />
+      )}
+      {comicSeriesData.comicseries && comicSeriesData?.issues?.[0] && (
+        <ReadNextEpisode 
+          comicissue={comicSeriesData.issues[0]}
+          comicseries={comicSeriesData.comicseries}
+          firstTextCTA="READ THE FIRST"
+          secondTextCTA="EPISODE"
+        />
+      )}
     </div>
   );
 }
