@@ -5,13 +5,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useMatches,
   useLoaderData,
+  useMatches,
   type LoaderFunction,
 } from "react-router";
 
 import { useEffect, useState } from 'react';
-import { getTheme } from "@/lib/action/theme";
+import { getSettings } from "@/lib/action/settings";
 
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
@@ -40,13 +40,15 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const theme = await getTheme(request);
-  return { theme };
+  const settings = await getSettings(request);
+  return { settings };
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { theme: initialTheme } = useLoaderData<{ theme: string }>();
-  const [theme, setTheme] = useState(initialTheme);
+  const { settings: initialSettings } = useLoaderData<{ settings: { theme: string, zoomMode: string } }>();
+  const [theme, setTheme] = useState(initialSettings.theme || 'light');
+  const [zoomMode, setZoomMode] = useState(initialSettings.zoomMode || 'out');
+
   const matches = useMatches();
   const currentRouteData = matches[matches.length - 1]?.data;
   
@@ -60,23 +62,39 @@ export function Layout({ children }: { children: React.ReactNode }) {
     }
   }, [currentRouteData]);
 
-  const toggleTheme = async () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
+  // Set initial zoom class based on zoom mode
+  useEffect(() => {
+    if (zoomMode === 'in') {
+      document.documentElement.classList.add('zoomed-in');
+    } else {
+      document.documentElement.classList.remove('zoomed-in');
+    }
+  }, [zoomMode]);
+
+  const handleThemeChange = async (newTheme: string) => {
     setTheme(newTheme);
-    document.documentElement.className = newTheme;
-    
-    // Update the fetch path
-    const response = await fetch('/api/theme', {
+
+    // Update settings with the new theme
+    await fetch('/api/settings', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ theme: newTheme }),
+      body: JSON.stringify({ theme: newTheme, zoomMode: zoomMode }),
     });
-    
-    if (response.ok) {
-      setTheme(newTheme);
-    }
+  };
+
+  const handleZoomModeChange = async (newZoomMode: string) => {
+    setZoomMode(newZoomMode);
+
+    // Update settings with new zoom mode
+    await fetch('/api/settings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ theme: theme, zoomMode: newZoomMode }),
+    });
   };
   
   return (
@@ -88,7 +106,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <Navbar isDarkMode={theme === 'dark'} onThemeToggle={toggleTheme} />
+        <Navbar 
+          theme={theme}
+          zoomMode={zoomMode}
+          onThemeChange={handleThemeChange} 
+          onZoomModeChange={handleZoomModeChange}
+        />
         {children}
         <ScrollRestoration />
         <script

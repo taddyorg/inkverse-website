@@ -36,5 +36,9 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addVariant }: { addVariant: (name: string, definition: string) => void }) {
+      addVariant('zoomed-in', '.zoomed-in &');
+    }
+  ],
 } satisfies Config;

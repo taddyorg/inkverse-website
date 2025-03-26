@@ -29,11 +29,10 @@ export const loader = async ({ params, request, context }: LoaderFunctionArgs) =
 
 export default function ComicIssue() {
   const { comicissue, comicseries, allIssues } = useLoaderData<typeof loader>();
-  const isSkinnyReadingMode = true;
   const comicSeriesLink = getInkverseUrl({ type: "comicseries", shortUrl: comicseries?.shortUrl });
 
   return (
-    <div className={`mx-auto sm:p-6 lg:p-8 ${isSkinnyReadingMode ? 'max-w-xl' : 'max-w-3xl'}`}>
+    <div className={`mx-auto sm:p-6 lg:p-8 zoomed-in:max-w-3xl max-w-xl`}>
       <div className='flex flex-col py-4 sm:py-0'>
         <div className="flex items-center mb-2">
           {comicSeriesLink && (

@@ -1,19 +1,40 @@
 import { useState, useEffect } from "react";
+import { BsGear } from "react-icons/bs";
 import { useMatches, useNavigate } from "react-router";
 
 interface NavbarProps {
-  isDarkMode: boolean;
-  onThemeToggle: () => void;
+  theme: string;
+  zoomMode: string;
+  onThemeChange: (theme: string) => void;
+  onZoomModeChange: (zoomMode: string) => void;
 }
 
-export function Navbar({ isDarkMode, onThemeToggle }: NavbarProps) {
+export function Navbar({ theme, zoomMode, onThemeChange, onZoomModeChange }: NavbarProps) {
   const ignoreNavRoutes = ["/blog", "/terms-of-service", "/open-source", "/brand-kit"];
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTypes, setSearchTypes] = useState('comics');
   const [showSearchBox, setShowSearchBox] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   const matches = useMatches();
   const navigate = useNavigate();
+
+  const toggleTheme = async () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    onThemeChange(newTheme);
+  };
+
+  const toggleZoomMode = async () => {
+    const newZoomMode = zoomMode === 'in' ? 'out' : 'in';
+    onZoomModeChange(newZoomMode);
+    
+    // Add/remove zoom class to root element
+    if (newZoomMode === 'in') {
+      document.documentElement.classList.add('zoomed-in');
+    } else {
+      document.documentElement.classList.remove('zoomed-in');
+    }
+  };
 
   // Check if the current route starts with any of the ignoreNavRoutes
   const ignoreNav = matches.some((match) => 
@@ -36,6 +57,21 @@ export function Navbar({ isDarkMode, onThemeToggle }: NavbarProps) {
     };
   }, []);
 
+  // Close settings when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (showSettings && !target.closest('.settings-modal') && !target.closest('.settings-button')) {
+        setShowSettings(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showSettings]);
+
   return (ignoreNav ? null :
     <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
         <div className="w-full pt-4 flex items-center justify-between">
@@ -55,25 +91,67 @@ export function Navbar({ isDarkMode, onThemeToggle }: NavbarProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
-            <button
-              onClick={onThemeToggle}
-              className="text-gray-800 hover:text-gray-400 dark:text-white dark:hover:text-gray-400"
-              aria-label="Toggle dark mode"
-            >
-              {isDarkMode ? (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-current" fill="none" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" 
-                  />
-                </svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-current" fill="none" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" 
-                  />
-                </svg>
+            <div className="relative">
+              <button
+                onClick={() => setShowSettings(!showSettings)}
+                className="text-gray-800 mt-1 hover:text-gray-400 dark:text-white dark:hover:text-gray-400 settings-button"
+                aria-label="Settings"
+              >
+                <BsGear size={24}/>
+              </button>
+              {showSettings && (
+                <div className="settings-modal absolute right-0 mt-2 w-60 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10 border border-gray-200 dark:border-gray-700">
+                  <div className="px-4 py-2 flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <button 
+                      onClick={toggleTheme}
+                      className="flex justify-center items-center w-full text-gray-800 dark:text-white"
+                    >
+                      <span className="text-base text-gray-700 dark:text-gray-200 mr-2">
+                        {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                      </span>
+                      {theme === 'dark' ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 stroke-current" fill="none" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" 
+                          />
+                        </svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 stroke-current" fill="none" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" 
+                          />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                  <div className="hidden sm:block px-4 py-2 justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700">
+                    
+                      <button 
+                        onClick={toggleZoomMode}
+                        className="flex justify-center items-center w-full text-gray-800 dark:text-white flex-col"
+                      >
+                        <div className="flex items-center w-full">
+                          <span className="text-base text-gray-700 dark:text-gray-200">
+                            {zoomMode === 'out' ? 'Switch to Zoomed In Reading Mode' : 'Switch to Zoomed Out Reading Mode'}
+                          </span>
+                          {zoomMode === 'out' ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-current ml-2" fill="none" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10H7" />
+                            </svg>
+                          ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-current ml-2" fill="none" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10H7M10 7v6" />
+                            </svg>
+                          )}
+                        </div>
+                        <img className="aspect-1 mt-2" src="https://ink0.inkverse.co/general/zommed-in-vs-out-5.png" alt="Zoomed In vs Zoomed Out" />
+                      </button>
+                  </div>
+                </div>
               )}
-            </button>
+            </div>
           </div>
         </div>
         {showSearchBox && (

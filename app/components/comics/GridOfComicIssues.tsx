@@ -110,9 +110,8 @@ export const PreviewComicIssueWrapper = (props: PreviewComicIssueProps) => {
     return null;
   }
 
-  const isSkinnyReadingMode = true;
   const wrapperProps = {
-    className: `flex-shrink-0 w-1/2 md:w-1/3 ${!isSkinnyReadingMode ? 'lg:w-1/4' : ''} p-2 snap-start`,
+    className: `flex-shrink-0 w-1/2 md:w-1/3 zoomed-in:w-1/4 p-2 snap-start`,
     'data-issue-id': comicissue?.uuid
   };
 

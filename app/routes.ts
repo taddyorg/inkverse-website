@@ -12,7 +12,7 @@ export default [
     route("lists/:id", "routes/list.tsx"),
     route("tagged/:tag", "routes/tag.tsx"),
     route("search/:term/:types?", "routes/search.tsx"),
-    route("api/theme", "routes/api.theme.ts"),
+    route("api/settings", "routes/api.settings.ts"),
     route("download-app", "routes/download-app.tsx"),
     route("*", "routes/error.tsx"),
 ] satisfies RouteConfig;

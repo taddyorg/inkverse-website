@@ -169,9 +169,8 @@ const Announcements = ({ newsItems }: { newsItems: NewsItem[] | null | undefined
               key={item.url}
               href={item.url}
               target="_blank"
-              className="flex-none w-[280px] p-4 bg-white rounded-lg shadow-sm border border-gray-100 dark:bg-gray-800 dark:border-gray-700"
-            >
-              <p className="font-semibold text-gray-800 dark:text-gray-200">{item.title}</p>
+              className="flex-none w-[280px] p-4 bg-white rounded-lg shadow-sm border border-gray-100 ">
+              <p className="font-semibold text-inkverse-black">{item.title}</p>
             </a>
           ))}
         </div>
