@@ -1,10 +1,8 @@
-import { ComicSeriesDetails, ComicSeriesPageType } from '../comics/ComicSeriesDetails';
-import { Section } from '../ui';
+import { ComicSeriesDetails } from '../comics/ComicSeriesDetails';
 import type { List } from '@/shared/graphql/types';
 
-export enum ListPageType {
-  LIST_SCREEN = 'LIST_SCREEN',
-}
+export type ListPageType = 
+  | 'list-screen';
 
 type ListDetailsProps = {
   list?: List | null | undefined;
@@ -15,7 +13,7 @@ export function ListDetails({ list, pageType }: ListDetailsProps) {
   if (!list) { return null; }
 
   return (
-    <Section className="px-4 py-6 mt-2 sm:px-6 lg:px-8 rounded-md">
+    <div className="px-4 py-6 mt-2 sm:px-6 lg:px-8 rounded-md">
       <div className="flex flex-col">
         <BannerImage list={list} />
         <Description list={list} />
@@ -24,11 +22,11 @@ export function ListDetails({ list, pageType }: ListDetailsProps) {
             key={comicSeries.uuid}
             comicseries={comicSeries} 
             index={index + 1}
-            pageType={ComicSeriesPageType.LIST_ITEM} 
+            pageType={'list-item'} 
           />
         ))}
       </div>
-    </Section>
+    </div>
   );
 }
 
@@ -39,7 +37,7 @@ type ListComponentProps = {
 
 const Name = ({ list, pageType }: ListComponentProps) => {
   switch (pageType) {
-    case ListPageType.LIST_SCREEN:
+    case 'list-screen':
       return <h1 className="font-bold text-xl">{list.name}</h1>;
     default:
       return <h2 className="font-bold text-xl">{list.name}</h2>;

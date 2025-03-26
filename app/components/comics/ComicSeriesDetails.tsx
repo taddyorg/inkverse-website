@@ -1,7 +1,4 @@
 import { Link } from "react-router";
-import { FaPlay } from "react-icons/fa";
-
-import { Section } from '../ui';
 
 import type { ComicSeries } from '@/shared/graphql/types';
 import { getInkverseUrl } from '@/public/utils';
@@ -9,14 +6,13 @@ import { getPrettyGenre } from '@/public/genres';
 import { getBannerImageUrl, getCoverImageUrl, getThumbnailImageUrl } from '@/public/comicseries';
 import { getAvatarImageUrl } from '@/public/creator';
 
-export enum ComicSeriesPageType {
-  COMICSERIES_SCREEN = 'COMICSERIES_SCREEN',
-  FEATURED_BANNER = 'FEATURED_BANNER',
-  MOST_POPULAR = 'MOST_POPULAR',
-  COVER = 'COVER',
-  SEARCH = 'SEARCH',
-  LIST_ITEM = 'LIST_ITEM',
-}
+export type ComicSeriesPageType = 
+  | 'comicseries-screen'
+  | 'featured-banner'
+  | 'most-popular'
+  | 'cover'
+  | 'search'
+  | 'list-item';
 
 type ComicSeriesDetailsProps = {
   comicseries: ComicSeries | null | undefined;
@@ -29,7 +25,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
 
   if (!comicseries) { return <></>; }
 
-  if (pageType === ComicSeriesPageType.MOST_POPULAR) {
+  if (pageType === 'most-popular') {
       const link = getInkverseUrl({ type: "comicseries", shortUrl: comicseries.shortUrl });
       if (!link) { return <></>; }
 
@@ -44,7 +40,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
       );
   }
 
-  else if (pageType === ComicSeriesPageType.FEATURED_BANNER) {
+  else if (pageType === 'featured-banner') {
       const link = getInkverseUrl({ type: "comicseries", shortUrl: comicseries.shortUrl });
       if (!link) { return <></>; }
 
@@ -55,7 +51,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
       );
   }
 
-  else if (pageType === ComicSeriesPageType.COVER) {
+  else if (pageType === 'cover') {
     const link = getInkverseUrl({ type: "comicseries", shortUrl: comicseries.shortUrl });
     if (!link) { return <></>; }
 
@@ -66,7 +62,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
       );
   }
 
-  else if (pageType === ComicSeriesPageType.SEARCH) {
+  else if (pageType === 'search') {
     const link = getInkverseUrl({ type: "comicseries", shortUrl: comicseries.shortUrl });
     if (!link) { return <></>; }
     return (
@@ -85,7 +81,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
   }
   
 
-  else if (pageType === ComicSeriesPageType.LIST_ITEM) {
+  else if (pageType === 'list-item') {
     const link = getInkverseUrl({ type: "comicseries", shortUrl: comicseries.shortUrl });
     if (!link) { return <></>; }
 
@@ -107,7 +103,7 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
   }
   
   return (
-    <Section className="py-6 mt-2 px-4 sm:px-6 lg:px-8 rounded-md">
+    <div className="py-6 mt-2 px-4 sm:px-6 lg:px-8 rounded-md">
       <div className="flex flex-col sm:flex-row ">
         <CoverArt comicseries={comicseries} pageType={pageType} />
         <div className="sm:w-2/3 sm:pl-4">
@@ -121,15 +117,15 @@ export function ComicSeriesDetails(props: ComicSeriesDetailsProps){
           <Tags comicseries={comicseries} pageType={pageType}/>
         </div>
       </div>
-    </Section>
+    </div>
   );
 }
 
 const Name = ({ comicseries, pageType }: { comicseries: ComicSeries, pageType: ComicSeriesPageType }) => {
   switch (pageType) {
-    case ComicSeriesPageType.COMICSERIES_SCREEN:
+    case 'comicseries-screen':
       return <h1 className="mt-4 sm:mt-0 font-bold text-xl">{comicseries.name}</h1>;
-    case ComicSeriesPageType.LIST_ITEM:
+    case 'list-item':
       return <h2 className="font-bold text-xl">{comicseries.name}</h2>;
     default:
       return <h2 className="mt-4 sm:mt-0 font-bold text-xl">{comicseries.name}</h2>;
@@ -138,7 +134,7 @@ const Name = ({ comicseries, pageType }: { comicseries: ComicSeries, pageType: C
 
 const CoverArt = ({ comicseries, pageType }: { comicseries: ComicSeries, pageType: ComicSeriesPageType }) => {
   switch (pageType) {
-    case ComicSeriesPageType.FEATURED_BANNER:
+    case 'featured-banner':
       return (
         <img
           src={getBannerImageUrl({ bannerImageAsString: comicseries.bannerImageAsString, variant: "large" }) || undefined}
@@ -146,7 +142,7 @@ const CoverArt = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
           className="w-full aspect-[16/9] max-h-[470px] rounded-lg object-cover object-center"
         />
       );
-    case ComicSeriesPageType.MOST_POPULAR:
+    case 'most-popular':
       return (
         <img
           src={getThumbnailImageUrl({ thumbnailImageAsString: comicseries.thumbnailImageAsString }) || undefined}
@@ -154,7 +150,7 @@ const CoverArt = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
           className="h-32 aspect-1 rounded-md object-contain object-center mr-2"
         />
     );
-    case ComicSeriesPageType.COVER:
+    case 'cover':
       return (
         <img
           src={getCoverImageUrl({ coverImageAsString: comicseries.coverImageAsString }) || undefined}
@@ -162,8 +158,8 @@ const CoverArt = ({ comicseries, pageType }: { comicseries: ComicSeries, pageTyp
           className="h-60 aspect-4/6 rounded-md object-contain object-center mr-2"
         />
     );
-    case ComicSeriesPageType.SEARCH:
-    case ComicSeriesPageType.LIST_ITEM:
+    case 'search':
+    case 'list-item':
       return (
         <img
           src={getThumbnailImageUrl({ thumbnailImageAsString: comicseries.thumbnailImageAsString }) || undefined}
@@ -188,7 +184,7 @@ function formatGenresString({ comicseries }: { comicseries: ComicSeries }) {
 };
 
 const Genre = ({ comicseries, pageType }: { comicseries: ComicSeries, pageType: ComicSeriesPageType }) => {
-  if (pageType === ComicSeriesPageType.MOST_POPULAR) {
+  if (pageType === 'most-popular') {
     return (
       <p className='mt-2 font-semibold'>{formatGenresString({ comicseries })}</p>
     );
@@ -200,7 +196,7 @@ const Genre = ({ comicseries, pageType }: { comicseries: ComicSeries, pageType: 
 }
 
 const Tags = ({ comicseries, pageType }: { comicseries: ComicSeries, pageType: ComicSeriesPageType }) => {
-  if (pageType !== ComicSeriesPageType.COMICSERIES_SCREEN || !comicseries.tags || comicseries.tags.length === 0) {
+  if (pageType !== 'comicseries-screen' || !comicseries.tags || comicseries.tags.length === 0) {
     return <></>;
   }
 

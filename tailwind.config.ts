@@ -33,6 +33,7 @@ export default {
         "taddy-blue": '#567CD6',
         "taddy-blue-dark": '#3E5FBC',
         "action-green": '#55BC31',
+        "brand-purple": '#A372F2',
       },
     },
   },

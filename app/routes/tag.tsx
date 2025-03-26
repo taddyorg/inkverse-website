@@ -2,8 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import type { LoaderFunctionArgs, MetaFunction } from 'react-router-dom';
 import { useLoaderData } from 'react-router';
 
-import { Section } from '../components/ui';
-import { ComicSeriesDetails, ComicSeriesPageType } from '../components/comics/ComicSeriesDetails';
+import { ComicSeriesDetails } from '../components/comics/ComicSeriesDetails';
 import { getMetaTags } from '@/lib/seo';
 import { getInkverseUrl, inkverseWebsiteUrl } from '@/public/utils';
 import { loadComicsList, type ComicsListLoaderData } from '@/lib/loader/tag.server';
@@ -56,7 +55,7 @@ export default function ComicsListScreen() {
                     {/* Cover art */}
                     <ComicSeriesDetails 
                       comicseries={comicSeries} 
-                      pageType={ComicSeriesPageType.COVER} 
+                      pageType={'cover'} 
                     />
                     {/* Title and genre below the cover */}
                     <div className="mt-2 text-center">

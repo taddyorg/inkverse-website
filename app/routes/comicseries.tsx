@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs, MetaFunction } from 'react-router-dom';
 import { useLoaderData } from 'react-router';
 
 // import { SimpleLoadingComponent } from '@/components/ui';
-import { ComicSeriesDetails, ComicSeriesPageType } from '../components/comics/ComicSeriesDetails';
+import { ComicSeriesDetails } from '../components/comics/ComicSeriesDetails';
 import { ComicIssuesList } from '../components/comics/ComicIssuesList';
 import { ComicSeriesInfo } from '../components/comics/ComicSeriesInfo';
 import { ReadNextEpisode } from '../components/comics/ReadNextEpisode';
@@ -56,7 +56,7 @@ function ComicSeriesScreen() {
     <div className="max-w-3xl mx-auto sm:p-6 lg:p-8">
       <ComicSeriesDetails 
         comicseries={comicSeriesData?.comicseries} 
-        pageType={ComicSeriesPageType.COMICSERIES_SCREEN} 
+        pageType={'comicseries-screen'} 
       />
       <ComicIssuesList 
         comicseries={comicSeriesData?.comicseries} 

@@ -1,4 +1,3 @@
-import { Section } from '../ui';
 import { ComicIssueDetails } from './ComicIssueDetails';
 import type { ComicSeries, ComicIssue } from '@/shared/graphql/types';
 
@@ -16,7 +15,7 @@ export function ComicIssuesList(props: ComicIssuesBoxProps) {
   }
 
   return (
-    <Section className="mt-2 mb-4 px-4 sm:px-6 lg:px-8 rounded-md">
+    <div className="mt-2 mb-4 px-4 sm:px-6 lg:px-8 rounded-md">
       <h2 className='text-2xl font-semibold mb-4'>Episodes</h2>
       {issues.map((comicissue, index) => (
         <ComicIssueDetails
@@ -27,6 +26,6 @@ export function ComicIssuesList(props: ComicIssuesBoxProps) {
           isCurrentIssue={comicissue.uuid === currentIssueUuid}
         />
       ))}
-    </Section>
+    </div>
   );
 }

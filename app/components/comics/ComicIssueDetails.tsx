@@ -71,7 +71,7 @@ const ComicIssueDetailsWrapper = ({
   isPatreonExclusive,
   isCurrentIssue,
 }: ComicIssueDetailsWrapperProps) => (
-  <div className={`flex justify-between items-center ${isCurrentIssue ? 'bg-brand-pink dark:bg-taddy-blue rounded-2xl py-2 mb-2' : 'h-16 mb-2'}`}>
+  <div className={`flex justify-between items-center ${isCurrentIssue ? 'bg-brand-pink dark:bg-brand-purple rounded-2xl py-2 mb-2' : 'h-16 mb-2'}`}>
     <div className="flex items-center pl-4">
       <div className="w-16 h-16 mr-4 relative">
         <img 

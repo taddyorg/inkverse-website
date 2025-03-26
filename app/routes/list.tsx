@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs, MetaFunction } from 'react-router-dom';
 import { useLoaderData } from 'react-router';
 
 // import { SimpleLoadingComponent } from '@/components/ui';
-import { ListDetails, ListPageType } from '../components/list/ListDetails';
+import { ListDetails } from '../components/list/ListDetails';
 
 import { loadList } from '@/lib/loader/list.server';
 import { getMetaTags } from '@/lib/seo';
@@ -50,7 +50,7 @@ function ListScreen() {
   
   return (
     <div className="max-w-3xl mx-auto sm:p-6 lg:p-8">
-      <ListDetails list={listData?.list} pageType={ListPageType.LIST_SCREEN} />
+      <ListDetails list={listData?.list} pageType={'list-screen'} />
     </div>
   );
 }

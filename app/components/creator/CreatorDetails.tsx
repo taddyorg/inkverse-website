@@ -1,13 +1,10 @@
-import React from 'react';
-
-import { Section } from '../ui';
 import { getAvatarImageUrl } from '@/public/creator';
 import type { Creator, LinkDetails } from '@/shared/graphql/types';
 import { CreatorLinks } from './CreatorLinks';
 
-export enum CreatorPageType {
-  CREATOR_SCREEN = 'CREATOR_SCREEN',
-}
+export type CreatorPageType = 
+  | 'creator-screen'
+  | 'mini-creator';
 
 type CreatorDetailsProps = {
   creator?: Creator | null | undefined;
@@ -18,7 +15,7 @@ export function CreatorDetails({ creator, pageType }: CreatorDetailsProps) {
   if (!creator) { return null; }
 
   return (
-    <Section className="px-4 py-6 mt-2 sm:px-6 lg:px-8 rounded-md">
+    <div className="px-4 py-6 mt-2 sm:px-6 lg:px-8 rounded-md">
       <div className="flex flex-col sm:flex-row ">
         {creator.avatarImageAsString &&
           <Avatar creator={creator} pageType={pageType} />
@@ -31,7 +28,7 @@ export function CreatorDetails({ creator, pageType }: CreatorDetailsProps) {
       {creator.links && 
         <CreatorLinks links={creator.links.filter((link): link is LinkDetails => link !== null)} />
       }
-    </Section>
+    </div>
   );
 }
 
@@ -42,7 +39,7 @@ type CreatorComponentProps = {
 
 const Name = ({ creator, pageType }: CreatorComponentProps) => {
   switch (pageType) {
-    case CreatorPageType.CREATOR_SCREEN:
+    case 'creator-screen':
       return <h1 className="mt-4 sm:mt-0 font-bold text-xl">{creator.name}</h1>;
     default:
       return <h2 className="mt-4 sm:mt-0 font-bold text-xl">{creator.name}</h2>;

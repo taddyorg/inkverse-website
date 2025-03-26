@@ -1,6 +1,6 @@
 import { Link, useLoaderData, type LoaderFunctionArgs, type MetaFunction } from "react-router";
 
-import { ComicSeriesDetails, ComicSeriesPageType } from "../components/comics/ComicSeriesDetails";
+import { ComicSeriesDetails } from "../components/comics/ComicSeriesDetails";
 import { GetAppButton } from "../components/ui/GetAppButton";
 
 import { getMetaTags } from "@/lib/seo";
@@ -98,7 +98,7 @@ const FeaturedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | null |
         <ComicSeriesDetails 
           key={firstComicSeries.uuid} 
           comicseries={firstComicSeries} 
-          pageType={ComicSeriesPageType.FEATURED_BANNER} 
+          pageType={'featured-banner'} 
         />
       )}
     </div>
@@ -117,7 +117,7 @@ const MostRecommendedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] |
             <ComicSeriesDetails 
               key={series.uuid} 
               comicseries={series} 
-              pageType={ComicSeriesPageType.MOST_POPULAR} 
+              pageType={'most-popular'} 
             />
           ))}
         </div>
@@ -192,7 +192,7 @@ const RecentlyUpdatedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] |
             >
               <ComicSeriesDetails 
                 comicseries={series} 
-                pageType={ComicSeriesPageType.COVER} 
+                pageType={'cover'} 
               />
             </div>
           ))}
@@ -215,7 +215,7 @@ const RecentlyAddedWebtoons = ({ comicSeries }: { comicSeries: ComicSeries[] | n
             >
               <ComicSeriesDetails 
                 comicseries={series} 
-                pageType={ComicSeriesPageType.COVER} 
+                pageType={'cover'} 
               />
             </div>
           ))}

@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs, MetaFunction } from 'react-router-dom';
 import { useLoaderData } from 'react-router';
 
 // import { SimpleLoadingComponent } from '@/components/ui';
-import { CreatorPageType, CreatorDetails } from '../components/creator/CreatorDetails';
+import { CreatorDetails } from '../components/creator/CreatorDetails';
 import { CreatorComics } from '../components/creator/CreatorComics';
 
 import { loadCreator } from '@/lib/loader/creator.server';
@@ -54,11 +54,11 @@ function CreatorScreen() {
     <div className="max-w-3xl mx-auto sm:p-6 lg:p-8">
       <CreatorDetails 
         creator={creatorData?.creator} 
-        pageType={CreatorPageType.CREATOR_SCREEN} 
+        pageType={'creator-screen'} 
       />
       <CreatorComics 
         comicseries={creatorData?.comicseries?.filter((comicseries) => comicseries !== null)} 
-        pageType={CreatorPageType.CREATOR_SCREEN} 
+        pageType={'creator-screen'} 
       />
     </div>
   );

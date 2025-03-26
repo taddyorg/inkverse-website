@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs, MetaFunction } from 'react-router-dom';
 import { useLoaderData } from 'react-router';
 
-import { ComicSeriesDetails, ComicSeriesPageType } from '@/app/components/comics/ComicSeriesDetails';
+import { ComicSeriesDetails } from '@/app/components/comics/ComicSeriesDetails';
 
 import { loadSearch } from '@/lib/loader/search.server';
 import { getMetaTags } from '@/lib/seo';
@@ -57,7 +57,7 @@ function SearchScreen() {
         <ComicSeriesDetails 
           key={comicseries.uuid}
           comicseries={comicseries} 
-          pageType={ComicSeriesPageType.SEARCH}
+          pageType={'search'}
         />
       ))}
     </div>

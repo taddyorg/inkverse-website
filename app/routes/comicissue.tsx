@@ -8,9 +8,10 @@ import { GridOfComicIssues } from "../components/comics/GridOfComicIssues";
 import { getMetaTags } from "@/lib/seo";
 import { loadComicIssue } from "@/lib/loader/comicissue.server";
 import { inkverseWebsiteUrl, getInkverseUrl } from "@/public/utils";
-import type { ComicIssue } from '@/shared/graphql/operations';
+import type { ComicIssue, Creator } from '@/shared/graphql/operations';
 import { getBannerImageUrl } from "@/public/comicissue";
 import { getStoryImageUrl } from "@/public/comicstory";
+import { CreatorsForIssue } from "../components/creator/CreatorsForIssue";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) { return []; }
@@ -55,11 +56,12 @@ export default function ComicIssue() {
             />
           )
         })}
-        <GridOfComicIssues
+        <CreatorsForIssue creators={comicseries?.creators?.map((creator) => creator as Creator) ?? []}/>
+        {/* <GridOfComicIssues
           comicseries={comicseries}
           comicissue={comicissue}
           allIssues={allIssues?.issues?.map((issue) => issue as ComicIssue) ?? []}
-        />
+        /> */}
       </div>
     </div>
   );

@@ -36,7 +36,7 @@ export function ReadNextEpisode({
         to={getInkverseUrl({ type: 'comicissue', uuid: comicissue.uuid, name: comicissue.name, shortUrl: comicseries.shortUrl }) || ''}
         className="block w-full overflow-hidden"
       >
-        <div className="flex items-center p-4 bg-white rounded-3xl border-2 border-brand-pink">
+        <div className="flex items-center p-4 bg-white rounded-3xl border-2 border-brand-pink dark:border-brand-purple">
           {comicissue.thumbnailImageAsString && (
             <div>
               <img
@@ -47,8 +47,8 @@ export function ReadNextEpisode({
             </div>
           )}
           <div className="flex-1 text-center">
-            <p className="text-2xl font-bold text-brand-pink">{firstTextCTA}</p>
-            <p className="text-2xl font-bold text-brand-pink">{secondTextCTA}</p>
+            <p className="text-2xl font-bold text-brand-pink dark:text-brand-purple">{firstTextCTA}</p>
+            <p className="text-2xl font-bold text-brand-pink dark:text-brand-purple">{secondTextCTA}</p>
           </div>
         </div>
       </Link>

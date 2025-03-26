@@ -146,7 +146,7 @@ export function Navbar({ theme, zoomMode, onThemeChange, onZoomModeChange }: Nav
                             </svg>
                           )}
                         </div>
-                        <img className="aspect-1 mt-2" src="https://ink0.inkverse.co/general/zommed-in-vs-out-5.png" alt="Zoomed In vs Zoomed Out" />
+                        <img className="aspect-1 mt-2 bg-white" src="https://ink0.inkverse.co/general/zommed-in-vs-out-5.png" alt="Zoomed In vs Zoomed Out" />
                       </button>
                   </div>
                 </div>
