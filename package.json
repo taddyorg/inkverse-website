@@ -20,6 +20,7 @@
     "@react-router/node": "^7.0.2",
     "@react-router/serve": "^7.0.2",
     "date-fns": "^4.1.0",
+    "dompurify": "^3.2.4",
     "graphql": "^16.10.0",
     "lodash-es": "^4.17.21",
     "posthog-js": "^1.232.6",

@@ -5,8 +5,8 @@ import { getThumbnailImageUrl } from '@/public/comicissue';
 import { getInkverseUrl } from '@/public/utils';
 
 interface ReadNextEpisodeProps {
-  comicissue: ComicIssue;
-  comicseries: ComicSeries;
+  comicissue: ComicIssue | null | undefined;
+  comicseries: ComicSeries | null | undefined;
   showEmptyState?: boolean;
   firstTextCTA?: string;
   secondTextCTA?: string;
@@ -19,6 +19,8 @@ export function ReadNextEpisode({
   firstTextCTA = 'NEXT', 
   secondTextCTA = 'EPISODE' 
 }: ReadNextEpisodeProps) {
+  if (!comicseries) { return null; }
+  
   if (!comicissue) {
     if (!showEmptyState) { return null; }
     return (
@@ -31,7 +33,7 @@ export function ReadNextEpisode({
   }
 
   return (
-    <div className="w-full mt-6 px-4 lg:px-8">
+    <div className="w-full mt-6">
       <Link 
         to={getInkverseUrl({ type: 'comicissue', uuid: comicissue.uuid, name: comicissue.name, shortUrl: comicseries.shortUrl }) || ''}
         className="block w-full overflow-hidden"

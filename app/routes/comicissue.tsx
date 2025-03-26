@@ -2,8 +2,9 @@ import { useLoaderData } from "react-router";
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { Link } from 'react-router-dom';
 import { MdChevronLeft } from 'react-icons/md';
+
 import { ImageWithLoader } from "../components/ui";
-import { GridOfComicIssues } from "../components/comics/GridOfComicIssues";
+import { ReadNextEpisode } from "../components/comics/ReadNextEpisode";
 
 import { getMetaTags } from "@/lib/seo";
 import { loadComicIssue } from "@/lib/loader/comicissue.server";
@@ -56,12 +57,20 @@ export default function ComicIssue() {
             />
           )
         })}
-        <CreatorsForIssue creators={comicseries?.creators?.map((creator) => creator as Creator) ?? []}/>
-        {/* <GridOfComicIssues
-          comicseries={comicseries}
-          comicissue={comicissue}
-          allIssues={allIssues?.issues?.map((issue) => issue as ComicIssue) ?? []}
-        /> */}
+        <div className="px-4 sm:px-0">
+          <CreatorsForIssue 
+            comicissue={comicissue} 
+            creators={comicseries?.creators?.map((creator) => creator as Creator) ?? []}/>
+          {/* <GridOfComicIssues
+            comicseries={comicseries}
+            comicissue={comicissue}
+            allIssues={allIssues?.issues?.map((issue) => issue as ComicIssue) ?? []}
+          /> */}
+          <ReadNextEpisode 
+            comicissue={comicissue?.nextIssue} 
+            comicseries={comicseries}
+          />
+        </div>
       </div>
     </div>
   );

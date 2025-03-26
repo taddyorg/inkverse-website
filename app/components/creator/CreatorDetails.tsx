@@ -1,6 +1,8 @@
 import { getAvatarImageUrl } from '@/public/creator';
 import type { Creator, LinkDetails } from '@/shared/graphql/types';
 import { CreatorLinks } from './CreatorLinks';
+import { getInkverseUrl } from '@/public/utils';
+import { Link } from 'react-router-dom';
 
 export type CreatorPageType = 
   | 'creator-screen'
@@ -13,6 +15,23 @@ type CreatorDetailsProps = {
 
 export function CreatorDetails({ creator, pageType }: CreatorDetailsProps) {
   if (!creator) { return null; }
+
+  if (pageType === 'mini-creator') {
+    return (
+      <Link 
+        className="flex"
+        to={getInkverseUrl({ type: "creator", shortUrl: creator.shortUrl }) || ''}>
+        {creator.avatarImageAsString && (
+          <img
+            src={getAvatarImageUrl({ avatarImageAsString: creator.avatarImageAsString })}
+            alt={`${creator.name} avatar`}
+            className="h-10 w-10 rounded-full object-cover object-center"
+          />
+        )}
+        <h2 className="mt-2 ml-2 font-bold text-sm text-center">{creator.name}</h2>
+      </Link>
+    );
+  }
 
   return (
     <div className="px-4 py-6 mt-2 sm:px-6 lg:px-8 rounded-md">

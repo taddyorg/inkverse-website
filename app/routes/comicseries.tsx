@@ -67,12 +67,14 @@ function ComicSeriesScreen() {
         <ComicSeriesInfo comicseries={comicSeriesData.comicseries} />
       )}
       {comicSeriesData.comicseries && comicSeriesData?.issues?.[0] && (
-        <ReadNextEpisode 
-          comicissue={comicSeriesData.issues[0]}
-          comicseries={comicSeriesData.comicseries}
-          firstTextCTA="READ THE FIRST"
-          secondTextCTA="EPISODE"
-        />
+        <div className="px-4 lg:px-8 pb-8">
+          <ReadNextEpisode 
+            comicissue={comicSeriesData.issues[0]}
+            comicseries={comicSeriesData.comicseries}
+            firstTextCTA="READ THE FIRST"
+            secondTextCTA="EPISODE"
+          />
+        </div>
       )}
     </div>
   );
