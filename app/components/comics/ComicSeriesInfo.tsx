@@ -37,7 +37,7 @@ export function ComicSeriesInfo({ comicseries }: ComicSeriesInfoProps) {
         <div className="flex">
           <button 
             onClick={() => setIsReportModalOpen(true)}
-            className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors">
+            className="inline-flex items-center hover:opacity-80 transition-opacity duration-100">
             <FaRegFlag className="h-4 w-4 mr-2" />
             Report Comic
           </button>

@@ -66,7 +66,7 @@ function ComicSeriesScreen() {
       {comicSeriesData?.comicseries && (
         <ComicSeriesInfo comicseries={comicSeriesData.comicseries} />
       )}
-      {comicSeriesData.comicseries && comicSeriesData?.issues?.[0] && (
+      {comicSeriesData.comicseries && comicSeriesData?.issues?.[0] && comicSeriesData?.issues?.length > 3 && (
         <div className="px-4 lg:px-8 pb-8">
           <ReadNextEpisode 
             comicissue={comicSeriesData.issues[0]}

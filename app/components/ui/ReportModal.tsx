@@ -1,7 +1,7 @@
 import React, { useState, useReducer, useEffect, useRef } from 'react';
 import { ReportType, getPrettyReportType } from '@/public/report';
 import { getApolloClient } from '@/lib/apollo/client.client';
-import { submitReportComicSeries, reportReducer, reportInitialState } from '@/shared/dispatch/reports';
+import { submitReportComicSeries, reportReducer, reportInitialState, resetReportComicSeries } from '@/shared/dispatch/reports';
 import { IoClose } from 'react-icons/io5';
 
 interface ReportModalProps {
@@ -20,6 +20,7 @@ export function ReportModal({ isOpen, onClose, uuid, type }: ReportModalProps) {
   useEffect(() => {
     if (reportState.success) {
       onClose();
+      resetReportComicSeries(dispatch);
     }
   }, [reportState.success, onClose]);
 
@@ -154,7 +155,7 @@ export function ReportModal({ isOpen, onClose, uuid, type }: ReportModalProps) {
               onClick={() => setSelectedReportType(reportType)}
               className={`w-full text-left px-4 py-3 rounded-lg transition-colors text-base ${
                 selectedReportType === reportType
-                  ? 'bg-brand-pink text-white'
+                  ? 'bg-brand-pink text-white dark:bg-taddy-blue dark:text-white'
                   : 'bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600'
               }`}
             >
@@ -163,14 +164,18 @@ export function ReportModal({ isOpen, onClose, uuid, type }: ReportModalProps) {
           ))}
         </div>
 
-        <div className="mt-6 flex justify-end">
+        <p className="mt-4 text-sm text-muted-foreground mb-4">
+          See our content guidelines <a href="/terms-of-service/content-policy" className="text-brand-pink dark:text-taddy-blue" target="_blank" rel="noopener noreferrer">here</a>.
+        </p>
+
+        <div className="mt-4 flex justify-end">
           <button
             onClick={handleSubmit}
             disabled={!selectedReportType || reportState.isSubmitting}
             className={`w-full px-4 py-3 text-base font-medium text-white rounded-lg ${
               !selectedReportType || reportState.isSubmitting
                 ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-brand-pink hover:bg-brand-pink-dark'
+                : 'bg-brand-pink hover:bg-brand-pink-dark dark:bg-taddy-blue dark:hover:bg-taddy-blue-dark'
             }`}
           >
             {reportState.isSubmitting ? 'Submitting...' : 'Submit'}

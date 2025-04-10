@@ -4,6 +4,7 @@ export default [
     index("routes/home.tsx"),
     route("blog/:slug?", "routes/blog.tsx"),
     route("open-source/:slug?", "routes/open-source.tsx"),
+    route("updates/:slug?", "routes/updates.tsx"),
     route("brand-kit/:slug?", "routes/brand-kit.tsx"),
     route("terms-of-service/:slug?", "routes/terms-of-service.tsx"),
     route("comics/:shortUrl", "routes/comicseries.tsx"),

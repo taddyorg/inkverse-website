@@ -36,7 +36,7 @@ export async function loadSearch({ params, request, context }: LoaderFunctionArg
       variables: { term, filterForTypes: typesArray },
     });
     
-    if (!searchResult.data?.searchForTerm) {
+    if (!searchResult.data?.search) {
       throw new Response("Not Found", { status: 404 });
     }
 
@@ -44,8 +44,8 @@ export async function loadSearch({ params, request, context }: LoaderFunctionArg
 
     // Return immediately with comic series, but defer user data
     return {
-      search: searchResult.data.searchForTerm,
-      comicseries: searchResult.data.searchForTerm.comicSeries,
+      search: searchResult.data.search,
+      comicseries: searchResult.data.search.comicSeries,
       apolloState: state,
     };
     

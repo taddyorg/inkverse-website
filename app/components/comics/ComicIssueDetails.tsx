@@ -81,7 +81,7 @@ const ComicIssueDetailsWrapper = ({
         />
         {isPatreonExclusive && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <MdLock size={24} className="text-white" />
+            <MdLock size={30} className="text-inkverse-black dark:text-white" />
           </div>
         )}
       </div>

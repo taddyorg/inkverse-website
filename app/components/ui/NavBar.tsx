@@ -10,7 +10,7 @@ interface NavbarProps {
 }
 
 export function Navbar({ theme, zoomMode, onThemeChange, onZoomModeChange }: NavbarProps) {
-  const ignoreNavRoutes = ["/blog", "/terms-of-service", "/open-source", "/brand-kit"];
+  const ignoreNavRoutes = ["/blog", "/terms-of-service", "/open-source", "/brand-kit", "/updates"];
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTypes, setSearchTypes] = useState('comics');
   const [showSearchBox, setShowSearchBox] = useState(false);
