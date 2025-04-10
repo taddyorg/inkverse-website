@@ -1,22 +1,31 @@
-FROM node:20-alpine AS development-dependencies-env
-COPY . /app
-WORKDIR /app
-RUN npm ci
+FROM node:20.17
 
-FROM node:20-alpine AS production-dependencies-env
-COPY ./package.json package-lock.json /app/
+# Create and use /app
 WORKDIR /app
-RUN npm ci --omit=dev
 
-FROM node:20-alpine AS build-env
-COPY . /app/
-COPY --from=development-dependencies-env /app/node_modules /app/node_modules
-WORKDIR /app
-RUN npm run build
+RUN apt-get update -y && apt-get upgrade -y
 
-FROM node:20-alpine
-COPY ./package.json package-lock.json /app/
-COPY --from=production-dependencies-env /app/node_modules /app/node_modules
-COPY --from=build-env /app/build /app/build
-WORKDIR /app
-CMD ["npm", "run", "start"]
+RUN apt-get install apt-utils -y
+RUN apt-get install apt-transport-https ca-certificates -y 
+
+# Install yarn from the local .tgz
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash
+
+# Copy package files first
+COPY package.json yarn.lock ./
+
+# Install dependencies
+RUN $HOME/.yarn/bin/yarn install
+
+# Copy the rest of the application (after deps)
+COPY . .
+
+# Build the application during the Docker build phase
+RUN $HOME/.yarn/bin/yarn build
+
+ENV NODE_ENV=production
+
+EXPOSE 3000
+
+# Only run the server in the CMD, not the build
+CMD ["yarn", "start"]
