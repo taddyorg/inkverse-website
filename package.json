@@ -13,7 +13,8 @@
     "dev": "react-router dev",
     "start": "cross-env NODE_ENV=production react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
-    "graphql-codegen": "graphql-codegen --config shared/graphql/codegen.ts"
+    "graphql-codegen": "graphql-codegen --config shared/graphql/codegen.ts",
+    "generate-primary-sitemap": "tsx generate-primary-sitemap.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.12.3",
@@ -47,6 +48,7 @@
     "cross-env": "^7.0.3",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.16",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vite": "^5.4.11",
     "vite-tsconfig-paths": "^5.1.4"
