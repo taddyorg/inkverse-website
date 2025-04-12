@@ -1,100 +1,59 @@
-# Welcome to React Router!
+# Inkverse Website
 
-A modern, production-ready template for building full-stack React applications using React Router.
+## Quick Setup (Using Production Inkverse API)
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
-
-## Features
-
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
-
-## Getting Started
-
-### Installation
-
-Install the dependencies:
-
-```bash
-npm install
-```
-
-### Development
-
-Start the development server with HMR:
-
-```bash
-npm run dev
-```
-
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-This template includes three Dockerfiles optimized for different package managers:
-
-- `Dockerfile` - for npm
-- `Dockerfile.pnpm` - for pnpm
-- `Dockerfile.bun` - for bun
-
-To build and run using Docker:
-
-```bash
-# For npm
-docker build -t my-app .
-
-# For pnpm
-docker build -f Dockerfile.pnpm -t my-app .
-
-# For bun
-docker build -f Dockerfile.bun -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
+1. Install dependencies
 
 ```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+yarn install - W
 ```
 
-## Styling
+We use yarn workspaces to install packages for the whole project, including the shared modules.
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+This project contains 2 shared modules: shared & public:
+- shared: contains shared code for both the Web & React Native apps. ex) GraphQL Queries and Mutations needed for the app.
+- public: contains constants used for all Inkverse repos.
 
----
+Using -W installs dependencies for the whole project, including the shared modules.
 
-Built with ❤️ using React Router.
+2.Setup config file
+
+Inside `config.ts`, change developmentConfig to developmentConfigButProductionData. This will use Inkverse's production API.
+
+
+3. Localhost vs inkverse.test
+
+We use custom localhost (inkverse.test) vs localhost, the benefit is that on your local machine you dont mix up cookies and other brower data between different localhost projects.
+
+To set it up, add this to your hosts file, by `sudo vim /etc/hosts` on Mac/Linux.
+
+```
+127.0.0.1               localhost
+127.0.0.1               inkverse.test
+```
+
+Now you can use `inkverse.test` as an alias for `localhost`, like we do in the config file.
+
+4. Start the app
+
+```
+   yarn dev
+```
+
+The web app will now be running on [inkverse.test:8082](http://inkverse.test:8082).
+
+## Local Development Setup
+
+If you want to build new features or fix bugs, you will need to setup your own local server. See [graphql-server/README.md](https://github.com/taddyorg/inkverse-graphql-server) for instructions on how to setup a local server. Once you have your local server running, you can use the following steps to setup the React Native app to use your local server.
+
+1. Reset config file back to developmentConfig.
+
+Inside `config.ts`, if you have updated developmentConfig to developmentConfigButProductionData, make sure to reset it back to developmentConfig. This will use your local server.
+
+2. Run the app
+
+```
+   yarn start
+```
+
+If you get an Apollo error, your local server is not running or it is not pointing to the correct url.
